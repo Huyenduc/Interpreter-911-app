@@ -45,6 +45,19 @@ export async function getUserDetails({ userId }: UserDetailsRequestPayload) {
     throw error;
   }
 }
+export async function loginRequest({email, password} : UserLogin){
+  try {
+    const response = await ApiClient.post('http://10.0.2.2:3001/auth/login', {
+      email: email,
+      password: password
+    })
+    return response.data;
+  }
+  catch (error) {
+    console.log(error)
+    throw error;
+  }
+}
 
 export async function createUser({ name, job }: CreateUserRequestPayload) {
   try {

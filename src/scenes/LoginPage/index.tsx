@@ -3,14 +3,13 @@ import {
     Button,
     Link,
     Box,
-    Stack, 
-    Input, useToast } from 'native-base';
+    Stack, useToast,
+ } from 'native-base';
 import React, { FC, useState } from 'react';
 import { 
-    StyleSheet, 
     Text, 
     TextInput, 
-    TouchableOpacity 
+    TouchableOpacity, Image
 } from 'react-native';
 import type { UserLogin } from '@redux/reqres/types';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,20 +17,19 @@ import styles from '@scenes/LoginPage/styles';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import { GenericNavigationProps } from '@routes/types';
-import { testHandlerSet } from '@redux/testHandler/actions';
+// import { testHandlerSet } from '@redux/testHandler/actions';
 import { testHandlerPayload } from '@redux/testHandler/types';
-import { put } from 'redux-saga/effects';
-import ApiClient from '@api';
-import { navigate } from '@routes/navigationUtils';
-import { propsHandlerFullInfo } from '@redux/propsHandler/selectors';
-
+// import { put } from 'redux-saga/effects';
+// import ApiClient from '@api';
+// import { navigate } from '@routes/navigationUtils';
+// import { propsHandlerFullInfo } from '@redux/propsHandler/selectors';
 const LoginPage: FC = () => {
     const dispatch = useDispatch()
     const toast = useToast()
     const navigation = useNavigation<GenericNavigationProps>();
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const [showPass, setShowPass] = React.useState(false);
+    const [showPass, setShowPass] = React.useState(true);
     const [payloadLogin, setPayloadLogin] = React.useState<UserLogin>({
         // dataLogin: {
             email: '',
@@ -72,15 +70,14 @@ const LoginPage: FC = () => {
         // dispatch(testHandlerSet(payloadData))
         navigation.navigate('Main', {screen: 'HomePreCall'});
     }
-    const {props} = useSelector(propsHandlerFullInfo)
-    console.log('propsss', props)
+    // const {props} = useSelector(propsHandlerFullInfo)
     return (
     <Box style={styles.container}>
         <Box style={styles.headerInner}>
-            <Text style={styles.title}>Interpreter 911</Text>
+            <Image style={styles.imgLogo} source={require('../../../assets/logo-resize.png')}/>
         </Box>
         <Box style={styles.centerInner}>
-            <Box style={styles.formView} mb={5}>
+            <Box style={styles.formView} mb={1}>
             <Stack space={4} w="100%" mx="auto">
                 <View style={styles.InputCont}>
                     <TextInput style={styles.InputPass} 
@@ -100,7 +97,7 @@ const LoginPage: FC = () => {
                         <TouchableOpacity
                             onPress={() => setShowPass(!showPass)}
                         >
-                        <Icon name={showPass ? "eye" : "eye-off"} size={27} color="#5b5b5b" />
+                        <Icon name={showPass ? "eye" : "eye-off"} size={25} color="#5b5b5b" />
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -111,10 +108,15 @@ const LoginPage: FC = () => {
                 style={styles.loginButtonSection}
             >
                 <Button 
-                    backgroundColor='red.400'
+                    backgroundColor='red.500'
                     rounded='md'
                     h='60px'
                     onPress={onLogin}
+                    // onPress={() => {
+                    //     socket.on("connect", () => {
+                    //         console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+                    //       });
+                    // }}
                     _text={{color: 'white', fontWeight: 'bold', fontSize: '22', letterSpacing: '2'}}
                 >
                     Sign In
@@ -133,7 +135,7 @@ const LoginPage: FC = () => {
                     onPress={() => navigation.navigate('Main', {screen: 'Register'})}
                 >
                     <Box style={styles.createButton}>
-                    <Text style={styles.buttonLabel}>Create New</Text>
+                        <Text style={styles.buttonLabel}>Create New</Text>
                     </Box>
                 </TouchableOpacity>
             </Box>

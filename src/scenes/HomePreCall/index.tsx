@@ -35,7 +35,7 @@ import { useNavigation } from '@react-navigation/native';
 import { GenericNavigationProps } from '@routes/types';
 
 const HomePreCall = () => {
-    const API_URL = 'https://8f41-113-160-172-8.ap.ngrok.io/'
+    const API_URL = 'https://cf74-113-160-172-8.ap.ngrok.io/'
     const navigation = useNavigation<GenericNavigationProps>()
     const dispatch = useDispatch()
     // const { props, setProps} = useSelector(propsHandlerFullInfo)
@@ -51,7 +51,7 @@ const HomePreCall = () => {
             token: '',
         
     })
-    // console.log('props',props.userName)
+    console.log('url:', API_URL)
     const _checkPermissions = (callback?: any) => {
         const iosPermissions = [PERMISSIONS.IOS.CAMERA, PERMISSIONS.IOS.MICROPHONE];
         const androidPermissions = [
@@ -156,7 +156,7 @@ const HomePreCall = () => {
                     dispatch(propsSetUsername(propsPayload.userName))
                     dispatch(propsSetRoomname(propsPayload.roomName))
                     _checkPermissions(() => {
-                    fetch(`${API_URL}api/rooms/getToken/manhz`)
+                    fetch(`${API_URL}getToken?userName=mnam`)
                         .then((response) => {
                         if (response.ok) {
                             // console.log(response.text().then())

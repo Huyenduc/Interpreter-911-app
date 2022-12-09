@@ -39,14 +39,16 @@ const initialState: IProps = {
     setProps: null
 }
 const propsReducer = createReducer(initialState, {
-    [propsHandlerSet.type]: (state, action) => {
-        state.props = action.payload.props;
+    [propsHandlerSet.type]: (state, {payload}) => {
+        // state.props = action.payload.props;
+        // state.setProps = {...props, isVideoEnable:}
     },
     [propsEnableAudio.type]: (state, {payload}) =>{
         state.props.isAudioEnabled = payload
     },
     [propsEnableVideo.type]: (state, {payload}) =>{
-        state.props.isVideoEnabled = payload 
+        state.props.isVideoEnabled = payload
+        console.log('payloadvideo', payload )
     },
     [propsSetStatus.type]: (state, {payload}) => {
         state.props.status = payload;

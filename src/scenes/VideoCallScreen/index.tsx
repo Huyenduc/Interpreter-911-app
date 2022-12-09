@@ -26,6 +26,7 @@ import { GenericNavigationProps } from '@routes/types';
 import { propsHandlerFullInfo } from '@redux/propsHandler/selectors';
 import { useSelector, useDispatch } from 'react-redux';
 import { 
+    propsHandlerSet,
     propsHandlerReset,
     propsSetStatus, 
     propsSetToken,
@@ -92,13 +93,14 @@ const VideoCallScreen = () => {
 
     };
 
-    const _onDisableVideoButtonPress = () => {
+    const _onDisableVideoButtonPress = async () => {
         twilioVideo.current
         .setLocalVideoEnabled(!props.isVideoEnabled)
-        .then((isEnabled: any) => 
+        .then((isEnabled: any) => {
             // setProps({ ...props, isVideoEnabled: isEnabled })
             dispatch(propsEnableVideo(isEnabled))
-        )
+            console.log('props', isEnabled)
+        })
     }
 
     return (

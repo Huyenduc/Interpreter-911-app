@@ -155,7 +155,7 @@ const RegisterPage: FC = () => {
                                     <TouchableOpacity
                                         onPress={() => setShowPass(!showPass)}
                                     >
-                                    <Icon name={showPass ? "eye" : "eye-off"} size={27} color="#5b5b5b" />
+                                    <Icon name={showPass ? "eye" : "eye-off"} size={25} color="#5b5b5b" />
                                     </TouchableOpacity>
                                 </View>
                             </View>
@@ -171,13 +171,13 @@ const RegisterPage: FC = () => {
                                     <TouchableOpacity
                                         onPress={() => setShowPass(!showPass)}
                                     >
-                                    <Icon name={showPass ? "eye" : "eye-off"} size={27} color="#5b5b5b" />
+                                    <Icon name={showPass ? "eye" : "eye-off"} size={25} color="#5b5b5b" />
                                     </TouchableOpacity>
                                 </View>
                             </View>
                             <Select 
                                 selectedValue={formData.role} 
-                                minWidth="200" accessibilityLabel="Select a role" 
+                                minWidth="200"
                                 placeholder="Select a role" 
                                 _selectedItem={{
                                     bg: "red.400",
@@ -187,7 +187,6 @@ const RegisterPage: FC = () => {
                                 onValueChange={itemValue => setData({ ...formData,
                                     role: itemValue
                                 })} 
-                                _text={{fontSize: '16'}}
                             >
                                 <Select.Item label="Customer" value="CUSTOMER" _text={{color: 'gray'}}/>
                                 <Select.Item label="Interpreter" value="INTERPRETER" _text={{color: 'gray'}}/>

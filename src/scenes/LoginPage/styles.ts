@@ -12,27 +12,31 @@ const styles = StyleSheet.create({
         fontSize: 36,
         fontWeight: 'bold',
     },
+    imgLogo:{
+        width: '50%',
+        minHeight: '10%',
+        resizeMode: 'contain'
+    },
     headerInner: {
         width: '90%',
-        height: '15%',
+        height: '30%',
         display: 'flex',
         justifyContent: 'flex-end',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingTop: 20,
+        paddingBottom: 20
     },
     centerInner:{
         // backgroundColor: 'salmon',
         width: '90%',
-        height: '70%',
+        height: '55%',
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     formView:{
         width: '100%'
     },  
-    innerContainer: {
-        
-    },
     footerInner: {
         width: '90%',
         height: '15%',
@@ -40,7 +44,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         fontSize: 20,
-        paddingTop: 20
+        paddingTop: 20,
     },
     inputLabel: {
         fontSize: 20
@@ -57,7 +61,7 @@ const styles = StyleSheet.create({
     },
     createButton:{
         backgroundColor: '#2ba750',
-        width: 130,
+        width: 120,
         height: 50,
         display: 'flex',
         justifyContent: 'center',
@@ -88,7 +92,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         height: 55,
-        marginBottom: 10,
         borderRadius: 7,
         borderWidth: 1,
         borderColor: 'lightgray',

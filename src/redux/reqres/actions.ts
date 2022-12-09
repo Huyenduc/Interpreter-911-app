@@ -32,6 +32,6 @@ export const deleteUserRequest = createAction<DeleteUserRequestPayload>('ACTION/
 export const deleteUserSuccess = createAction('ACTION/DELETE_USER_SUCCESS');
 export const deleteUserFailed = createAction('ACTION/DELETE_USER_FAILED');
 
-export const loginUserRequest = createAction<UserLogin>('ACTION/LOGIN_USER_REQUEST');
-export const loginUserSuccess = createAction('ACTION/LOGIN_USER_SUCCESS');
-export const loginUserFailed = createAction('ACTION/LOGIN_USER_FAILED');
+export const userLoginRequest = createAction<UserLogin>('ACTION/LOGIN_USER_REQUEST');
+export const userLoginSuccess = createAction('ACTION/LOGIN_USER_SUCCESS');
+export const userLoginFailed = createAction('ACTION/LOGIN_USER_FAILED');
