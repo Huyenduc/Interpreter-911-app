@@ -14,6 +14,8 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import InnerApp from './InnerApp';
 
+import {requestUserPermission,NotificationListner} from './notification/firebase'
+
 enableScreens();
 
 const App: FC = () => {
@@ -26,6 +28,13 @@ const App: FC = () => {
   useEffect(() => {
     SplashScreen.hide();
   }, []);
+
+  useEffect(()=>{
+    requestUserPermission();
+    NotificationListner();
+  },[])
+
+
 
   return (
     <Suspense fallback={<Splashscreen />}>

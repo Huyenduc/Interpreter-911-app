@@ -35,7 +35,7 @@ import { useNavigation } from '@react-navigation/native';
 import { GenericNavigationProps } from '@routes/types';
 
 const HomePreCall = () => {
-    const API_URL = 'https://cf74-113-160-172-8.ap.ngrok.io/'
+    const API_URL = 'https://6aa9-113-160-172-8.ap.ngrok.io/'
     const navigation = useNavigation<GenericNavigationProps>()
     const dispatch = useDispatch()
     // const { props, setProps} = useSelector(propsHandlerFullInfo)
@@ -148,6 +148,7 @@ const HomePreCall = () => {
                     onChangeText={(text) => setPropsPayload({...propsPayload, roomName: text})}
                 />
             </View>
+            
             <View style={styles.formGroup}>
                 <TouchableOpacity
                 disabled={false}
@@ -156,7 +157,7 @@ const HomePreCall = () => {
                     dispatch(propsSetUsername(propsPayload.userName))
                     dispatch(propsSetRoomname(propsPayload.roomName))
                     _checkPermissions(() => {
-                    fetch(`${API_URL}getToken?userName=mnam`)
+                    fetch(`${API_URL}getToken?userName=duc`)
                         .then((response) => {
                         if (response.ok) {
                             // console.log(response.text().then())
