@@ -7,6 +7,8 @@ import RegisterPage from '@scenes/RegisterPage';
 import MainPage from '@scenes/MainPage';
 import HomePreCall from '@scenes/HomePreCall';
 import VideoCallScreen from '@scenes/VideoCallScreen';
+import RateScreen from '@scenes/RateScreen';
+import LanguagePage from '@scenes/LanguagePage';
 import customTheme from '@theme';
 import { FC } from 'react';
 import * as React from 'react';
@@ -32,6 +34,22 @@ export const MainStackScreen: FC = () => {
           headerShown: false,
           headerTitleAlign: 'center',
           ...TransitionPresets.SlideFromRightIOS,
+        }}
+      />
+      <MainStack.Screen
+        name="RateScreen"
+        component={RateScreen}
+        options={{
+          headerShown: false,
+          headerTitleAlign: 'center',
+        }}
+      />
+      <MainStack.Screen
+        name="LanguagePage"
+        component={LanguagePage}
+        options={{
+          headerShown: false,
+          headerTitleAlign: 'center',
         }}
       />
       <MainStack.Screen

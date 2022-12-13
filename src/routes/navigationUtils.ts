@@ -38,3 +38,8 @@ export const popToTop = (): void => {
     // You can ignore this, or add these actions to a queue you can call later
   }
 };
+export function navigatee(name: any, params:any) {
+  if (navigationRef.isReady()) {
+    navigationRef.navigate(name, params);
+  }
+}

@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import {
   StyleSheet,
   View,
@@ -12,7 +12,8 @@ import {
   Platform,
   ScrollView,
   Dimensions,
-  useColorScheme
+  useColorScheme,
+  BackHandler
 } from 'react-native';
 import {
     checkMultiple,
@@ -31,16 +32,17 @@ import {
 } from '@redux/propsHandler/actions';
 import { PropsPayload } from '@redux/propsHandler/types';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { GenericNavigationProps } from '@routes/types';
+import { userLoginPayload } from '@redux/loginReq/selectors';
 
 const HomePreCall = () => {
-    const API_URL = 'https://cf74-113-160-172-8.ap.ngrok.io/'
+    const API_URL = 'https://db20-27-72-97-141.ngrok.io'
     const navigation = useNavigation<GenericNavigationProps>()
     const dispatch = useDispatch()
-    // const { props, setProps} = useSelector(propsHandlerFullInfo)
+    const user = useSelector(userLoginPayload)
+    console.log('user:', user)
     const [propsPayload, setPropsPayload] = useState({
-        
             isAudioEnabled: true,
             isVideoEnabled: true,
             status: 'disconnected',
@@ -123,7 +125,19 @@ const HomePreCall = () => {
         _checkPermissions();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
+    // -----------disable back button-----------
+    // useFocusEffect(
+    //     React.useCallback(() => {
+    //         const onBackPress = () => {
+    //             return true;
+    //         };
+        
+    //         BackHandler.addEventListener('hardwareBackPress', onBackPress);
+            
+    //         return () =>
+    //             BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    //     }, []),
+    //   );
     return (
         <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}

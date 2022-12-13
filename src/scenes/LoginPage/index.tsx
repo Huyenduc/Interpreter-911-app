@@ -4,21 +4,24 @@ import {
     Link,
     Box,
     Stack, useToast,
+    Spinner
  } from 'native-base';
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useCallback } from 'react';
 import { 
     Text, 
     TextInput, 
-    TouchableOpacity, Image
+    TouchableOpacity, Image,
+    BackHandler
 } from 'react-native';
 import type { UserLogin } from '@redux/reqres/types';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from '@scenes/LoginPage/styles';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { GenericNavigationProps } from '@routes/types';
-// import { testHandlerSet } from '@redux/testHandler/actions';
-import { testHandlerPayload } from '@redux/testHandler/types';
+// import { userLoginRequest } from '@redux/loginReq/actions';
+import { userLoginRequestt } from '@redux/actions';
+import { userLoginLoading } from '@redux/loginReq/selectors';
 // import { put } from 'redux-saga/effects';
 // import ApiClient from '@api';
 // import { navigate } from '@routes/navigationUtils';
@@ -27,8 +30,8 @@ const LoginPage: FC = () => {
     const dispatch = useDispatch()
     const toast = useToast()
     const navigation = useNavigation<GenericNavigationProps>();
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
+    // const {loadingStatus} = useSelector(loadingGetStatus)
+    const loading = useSelector(userLoginLoading)
     const [showPass, setShowPass] = React.useState(true);
     const [payloadLogin, setPayloadLogin] = React.useState<UserLogin>({
         // dataLogin: {
@@ -36,41 +39,24 @@ const LoginPage: FC = () => {
             password: ''
         // }
     })
-    const [payloadData, setPayloadData] = useState<testHandlerPayload>({
-        payloads: ''
-    })
-    const handleShowPass = () => setShowPass(!showPass);
     const onLogin = async () => {
         console.log(payloadLogin);
-        // dispatch(loginUserRequest({email: username, password: passWord}))
-        // ApiClient.post('http://10.0.2.2:3001/auth/login', payloadLogin)
-        // .then(res => {
-        //     console.log(res.data)
-        //     toast.show({
-        //         placement: 'top',
-        //         render: () => {
-        //             return <Box bg="emerald.500" px="2" py="1" rounded="sm" mb={1}>
-        //                         <Text>Sign-In Successful</Text>
-        //                 </Box>;
-        //             }
-        //         });
-        //         navigation.navigate('Main', {screen: 'MainPage'})
-        // })
-        // .catch(err =>  {
-        //     console.log(err)
-        //     toast.show({
-        //         placement: 'top',
-        //         render: () => {
-        //             return <Box bg="red.500" color='white' px="2" py="1" rounded="sm" mb={1}>
-        //                         <Text>Sign-In Error</Text>
-        //                 </Box>;
-        //             }
-        //         });
-        // })
-        // dispatch(testHandlerSet(payloadData))
-        navigation.navigate('Main', {screen: 'HomePreCall'});
+        dispatch(userLoginRequestt({email: payloadLogin.email, password: payloadLogin.password}))
+        
     }
-    // const {props} = useSelector(propsHandlerFullInfo)
+    
+    useFocusEffect(
+        React.useCallback(() => {
+            const onBackPress = () => {
+                return true;
+            };
+        
+            BackHandler.addEventListener('hardwareBackPress', onBackPress);
+            
+            return () =>
+                BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+        }, []),
+      );
     return (
     <Box style={styles.container}>
         <Box style={styles.headerInner}>
@@ -112,14 +98,10 @@ const LoginPage: FC = () => {
                     rounded='md'
                     h='60px'
                     onPress={onLogin}
-                    // onPress={() => {
-                    //     socket.on("connect", () => {
-                    //         console.log(socket.id); // x8WIv7-mJelg7on_ALbx
-                    //       });
-                    // }}
                     _text={{color: 'white', fontWeight: 'bold', fontSize: '22', letterSpacing: '2'}}
                 >
-                    Sign In
+                    {loading ? <Spinner color='white'/> : 'Sign In'}
+                    {/* Sign In */}
                 </Button>
                 <Box mt={5} style={styles.centerLink} >
                     <Link href="" _text={{fontSize: '15', textDecoration: 'none', color: 'blue.500'}}>
@@ -129,13 +111,13 @@ const LoginPage: FC = () => {
             </Box>
         </Box>
         <Box style={styles.footerInner}>
-            <Text style={styles.createLabel}>Don't have an account?</Text>
+            <Text style={styles.createLabel}>You are an Interpreter?</Text>
             <Box style={styles.buttonContainer}>
                 <TouchableOpacity
                     onPress={() => navigation.navigate('Main', {screen: 'Register'})}
                 >
                     <Box style={styles.createButton}>
-                        <Text style={styles.buttonLabel}>Create New</Text>
+                        <Text style={styles.buttonLabel}>Signin Now</Text>
                     </Box>
                 </TouchableOpacity>
             </Box>

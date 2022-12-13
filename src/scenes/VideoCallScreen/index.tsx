@@ -4,6 +4,7 @@ import React, {
     useRef, 
     useEffect,
 } from 'react';
+import MateriaLicons from 'react-native-vector-icons/MaterialIcons';
 import {
     View,
     Text,
@@ -77,6 +78,9 @@ const VideoCallScreen = () => {
     const _onEndButtonPress = () => {
         twilioVideo.current.disconnect();
         dispatch(propsHandlerReset)
+        // setInterval(() => {
+            navigation.navigate('Main', {screen: 'RateScreen'})
+        // },1000)
     };
 
     const _onMuteButtonPress = () => {
@@ -133,29 +137,24 @@ const VideoCallScreen = () => {
 
 
         
-            <View style={styles.optionsContainer}>
-            
-                
+        <View style={styles.optionsContainer}>
                 <TouchableOpacity style={[styles.button, { backgroundColor: '#ed3b2d', marginLeft: 10 }]} onPress={_onEndButtonPress}>
 
-                    <Text>End</Text>
+                    <MateriaLicons name="call-end" size={30} color="white" />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button} onPress={_onMuteButtonPress}>
-                    {props.isAudioEnabled ? <Text>Mute</Text> : <Text>UnMute</Text>}
+                    <MateriaLicons name={props.isAudioEnabled ? 'mic' : 'mic-off'} size={30} color="white" />
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.button} onPress={_onDisableVideoButtonPress}>
-                    {props.isVideoEnabled ? <Text>On</Text> : <Text>Off</Text>}
+                    <MateriaLicons name={props.isVideoEnabled ? 'videocam' : 'videocam-off'} size={30} color="white" />
                 </TouchableOpacity>
 
                 <TouchableOpacity style={[styles.button, { marginRight: 10 }]} onPress={_onFlipButtonPress}>
                     {/* <Text style={styles.buttonText}>Flip</Text> */}
-                    <Text>Flip</Text>
+                    <MateriaLicons name="flip-camera-ios" size={30} color="white" />
                 </TouchableOpacity>
-            
-
             </View> 
-        
 
         <TwilioVideo
             ref={twilioVideo}
@@ -166,7 +165,6 @@ const VideoCallScreen = () => {
             onRoomDidDisconnect={() => {
                 // setProps({ ...props, status: 'disconnected' });
                 dispatch(propsSetStatus('disconnected'))
-                navigation.goBack();
             }}
             onRoomDidFailToConnect={(error) => {
                 Alert.alert('Error', error.error);
@@ -202,7 +200,7 @@ const VideoCallScreen = () => {
             }}
             onParticipantRemovedVideoTrack={({ track }) => {
             const videoTracks = props.videoTracks;
-            videoTracks.delete(track.trackSid);
+            // videoTracks.delete(track.trackSid);
             // setProps({ ...props, videoTracks });
             dispatch(propsSetTrack(videoTracks))
             }}
