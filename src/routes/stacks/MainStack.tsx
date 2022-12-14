@@ -50,6 +50,7 @@ export const MainStackScreen: FC = () => {
         options={{
           headerShown: false,
           headerTitleAlign: 'center',
+
         }}
       />
       <MainStack.Screen

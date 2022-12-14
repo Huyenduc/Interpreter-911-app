@@ -116,7 +116,7 @@ function* deleteUserSaga({ payload }: PayloadAction<DeleteUserRequestPayload>) {
 function* userLoginSaga({ payload }: PayloadAction<UserLogin>) {
   try {
     const response: { status: number } = yield call(UsersAPI.login, { ...payload });
-    if (response.status === 201) {
+    if (response.status === 200) {
       yield put(messageHandlerSet({ message: i18n.t('Homepage:UserLogined'), status: 'success' }));
       RootNavigation.navigate('Main', {screen: 'HomePreCall'})
     } else {
