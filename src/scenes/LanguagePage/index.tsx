@@ -6,37 +6,40 @@ import {
 } from 'react-native'
 import { Button } from 'native-base'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { userLoginPayload } from '@redux/loginReq/selectors'
-import { useFocusEffect } from '@react-navigation/native'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import { GenericNavigationProps } from '@routes/types'
+import { removeAccessToken } from '@redux/loginReq/actions'
 
 const LanguagePage = () => {
-    const user = useSelector(userLoginPayload)
-    const storeToken = async() => {
-        try{
-            await AsyncStorage.setItem('@access-token', user.accessToken)
-        } catch(err){
-            console.log('err storage token')
+    const navigation = useNavigation<GenericNavigationProps>()
+    const dispatch = useDispatch()
+    // useFocusEffect(
+    //     React.useCallback(() => {
+    //         const onBackPress = () => {
+    //             return true;
+    //         };
+        
+    //         BackHandler.addEventListener('hardwareBackPress', onBackPress);
+            
+    //         return () =>
+    //             BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    //     }, []),
+    // );
+    const delToken = async () => {
+        try {
+            await AsyncStorage.clear();
+        } catch (error) {
+            console.log(error);
         }
     }
-    React.useEffect(() => {
-        storeToken()
-    })
-    useFocusEffect(
-        React.useCallback(() => {
-            const onBackPress = () => {
-                return true;
-            };
-        
-            BackHandler.addEventListener('hardwareBackPress', onBackPress);
-            
-            return () =>
-                BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-        }, []),
-    );
     const handleLogout = () => {
-        AsyncStorage.removeItem('@access-token')
+        delToken();
+        dispatch(removeAccessToken())
+        navigation.navigate('Main', {screen: 'Login'})
     }
+    
     return(
         <View>
             <Text>Language Page</Text>

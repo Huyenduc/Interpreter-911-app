@@ -23,9 +23,11 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { GenericNavigationProps } from '@routes/types';
 import { messageHandlerSet } from '@redux/messageHandler/actions';
 import { userLoginSuccess } from '@redux/loginReq/actions';
+import { userLoginPayload} from '@redux/loginReq/selectors'
 const LoginPage: FC = () => {
     const dispatch = useDispatch()
-    const toast = useToast()
+    // const toast = useToast()
+    // const userInfor = useSelector(userLoginPayload)
     const navigation = useNavigation<GenericNavigationProps>();
     // const {loadingStatus} = useSelector(loadingGetStatus)
     // const loading = useSelector(userLoginLoading)
@@ -36,7 +38,6 @@ const LoginPage: FC = () => {
             password: ''
         // }
     })
-    
     const [loading, setLoading] = useState(false)
     const handleLogin = async () => {
         try {
@@ -54,25 +55,23 @@ const LoginPage: FC = () => {
             const json = await response.json();
             if(response.status === 201){
                 dispatch(messageHandlerSet({ message: i18n.t('Login Successful'), status: 'success' }))
-                setTimeout(() => {
-                    navigation.navigate('Main', {screen: 'LanguagePage'});
-                }, 1200)
+                // setTimeout(() => {
+                //     navigation.navigate('Main', {screen: 'LanguagePage'});
+                // }, 1200)
                 dispatch(userLoginSuccess(json))
             } else{
                 dispatch(messageHandlerSet({ message: i18n.t('Wrong email or password'), status: 'error' }))
                 
             }
-            console.log('json', json);
         } catch (error) {
             console.error(error);
         } finally {
             setLoading(false);
         }
-     }
+    }
     const onLogin = async () => {
         console.log(payloadLogin);
         setLoading(true)
-        // dispatch(userLoginRequest({email: payloadLogin.email, password: payloadLogin.password}))
         await handleLogin()
     }
     
@@ -88,22 +87,6 @@ const LoginPage: FC = () => {
                 BackHandler.removeEventListener('hardwareBackPress', onBackPress);
         }, []),
     );
-    // const getToken = async () => {
-    //     try{
-    //         const token = await AsyncStorage.getItem('@access-token')
-    //         if(token){
-    //             navigation.navigate('Main', {screen: 'LanguagePage'})
-    //         }
-    //     } catch (err) {
-    //         console.log('get token error')
-    //     }
-    // }
-    // const token = AsyncStorage.getItem('@access-token')
-    // useEffect(() =>{
-    //     if(token !== undefined){
-    //         navigation.navigate('Main', {screen: 'LanguagePage'})
-    //     }
-    // },[token])
     useEffect(() =>{
         console.log('loading: ', loading);
         // getToken()
