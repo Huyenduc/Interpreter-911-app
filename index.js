@@ -9,11 +9,15 @@ import React from 'react';
 import notifee, { EventType, AndroidImportance } from '@notifee/react-native';
 import messaging from '@react-native-firebase/messaging';
 import {onDisplayNotification} from "./src/notification/notiffe";
+import RNCallKeep from 'react-native-callkeep';
+
+
 
 
 
 messaging().setBackgroundMessageHandler(async () => {
-  await onDisplayNotification();
+  // await onDisplayNotification();
+   RNCallKeep.displayIncomingCall("67389","dhuduad");
 });
 
 function HeadlessCheck({ isHeadless }) {

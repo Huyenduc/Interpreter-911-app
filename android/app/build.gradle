@@ -289,6 +289,7 @@ dependencies {
 
     // For WebP support, without animations
     implementation 'com.facebook.fresco:webpsupport:2.6.0'
+    implementation project(':react-native-callkeep')
 
     implementation project(':react-native-splash-screen')
     implementation platform('com.google.firebase:firebase-bom:31.1.1')
