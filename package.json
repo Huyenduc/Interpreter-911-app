@@ -58,7 +58,7 @@
     "react-i18next": "11.18.4",
     "react-native": "0.69.4",
     "react-native-callkeep": "git+https://github.com/react-native-webrtc/react-native-callkeep#4b1fa98a685f6502d151875138b7c81baf1ec680",
-    "react-native-flipper": "0.159.0",
+    "react-native-flipper": "0.176.1",
     "react-native-gesture-handler": "2.5.0",
     "react-native-indicators": "^0.17.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
