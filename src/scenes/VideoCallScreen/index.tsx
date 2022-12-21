@@ -38,6 +38,7 @@ import {
 import styles from './styles'
 
 import MateriaLicons from 'react-native-vector-icons/MaterialIcons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const VideoCallScreen = () => {
     const dispatch = useDispatch()
@@ -124,34 +125,42 @@ const VideoCallScreen = () => {
                         )}
                     </View>
                 )}
+                {
+                    props.isVideoEnabled ? <TwilioVideoLocalView
+                        enabled={props.status === 'connecting'}
+                        applyZOrder={true}
+                        style={styles.localVideo}
+                    /> :
+                        <View style={styles.localVideo}>
+                            <FontAwesome5 name="user" size={30} color="white" />
 
-                <TwilioVideoLocalView
-                    enabled={props.status === 'connected'}
-                    applyZOrder={true}
-                    style={styles.localVideo}
-                />
+                        </View>
+                }
+
+
+
 
             </View>
 
 
 
             <View style={styles.optionsContainer}>
-              <TouchableOpacity style={[styles.button, { backgroundColor: '#ed3b2d', marginLeft: 10 }]} onPress={_onEndButtonPress}>
+                <TouchableOpacity style={[styles.button, { backgroundColor: '#ed3b2d', marginLeft: 10 }]} onPress={_onEndButtonPress}>
 
-                <MateriaLicons name="call-end" size={30} color="white" />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.button} onPress={_onMuteButtonPress}>
-                <MateriaLicons name={props.isAudioEnabled ? 'mic' : 'mic-off'} size={30} color="white" />
-              </TouchableOpacity>
+                    <MateriaLicons name="call-end" size={30} color="white" />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.button} onPress={_onMuteButtonPress}>
+                    <MateriaLicons name={props.isAudioEnabled ? 'mic' : 'mic-off'} size={30} color="white" />
+                </TouchableOpacity>
 
-              <TouchableOpacity style={styles.button} onPress={_onDisableVideoButtonPress}>
-                <MateriaLicons name={props.isVideoEnabled ? 'videocam' : 'videocam-off'} size={30} color="white" />
-              </TouchableOpacity>
+                <TouchableOpacity style={styles.button} onPress={_onDisableVideoButtonPress}>
+                    <MateriaLicons name={props.isVideoEnabled ? 'videocam' : 'videocam-off'} size={30} color="white" />
+                </TouchableOpacity>
 
-              <TouchableOpacity style={[styles.button, { marginRight: 10 }]} onPress={_onFlipButtonPress}>
-                {/* <Text style={styles.buttonText}>Flip</Text> */}
-                <MateriaLicons name="flip-camera-ios" size={30} color="white" />
-              </TouchableOpacity>
+                <TouchableOpacity style={[styles.button, { marginRight: 10 }]} onPress={_onFlipButtonPress}>
+                    {/* <Text style={styles.buttonText}>Flip</Text> */}
+                    <MateriaLicons name="flip-camera-ios" size={30} color="white" />
+                </TouchableOpacity>
             </View>
 
 

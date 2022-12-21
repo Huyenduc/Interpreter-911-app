@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     form: {
       flex: 1,
       alignSelf: 'center',
-      backgroundColor: 'white',
+      backgroundColor: 'red',
       borderRadius: 10,
       margin: 20,
       flexDirection: 'column',
@@ -59,12 +59,13 @@ const styles = StyleSheet.create({
       flex: 1,
     },
     localVideo: {
-      borderRadius: 30,
+      backgroundColor:'#1f1c1b',
+      // borderRadius: 30,  
       position: 'absolute',
       right: 20,
       top: 30,
-      width: dimensions.width / 4,
-      height: dimensions.height / 4,
+      width: dimensions.width / 3.5,
+      height: dimensions.height / 3.5,
     },
   
     optionsContainer: {

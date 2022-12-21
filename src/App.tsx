@@ -43,27 +43,6 @@ const App: FC = () => {
     NotificationListner();
   }, [])
 
-  useEffect(() => {
-    RNCallKeep.addEventListener('answerCall', (data) => {
-        if ('android' === Platform.OS) {
-            // RNUnlockDevice.unlock();
-            RNCallKeep.endAllCalls();
-            RNCallKeep.backToForeground();
-            console.log("dd")
-        }
-    });
-
-    RNCallKeep.addEventListener('endCall', (data) => {
-      RNCallKeep.endAllCalls();
-      console.log("call3")
-  
-    });
-})
-
-
- 
-
-
 
   return (
     <Suspense fallback={<Splashscreen />}>

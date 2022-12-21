@@ -1,8 +1,9 @@
 import RNCallKeep from 'react-native-callkeep';
+import { Platform } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import { GenericNavigationProps } from '@routes/types';
-// import { useEffect } from 'react';
 
+// import { useEffect } from 'react';
 
 
 export const handleCallNotification = async () => {
@@ -12,11 +13,11 @@ export const handleCallNotification = async () => {
     const uid = "ddd"
     // currentUid = uid;
     RNCallKeep.displayIncomingCall(
-      uid,
-      "kdkkd",
-      "kdkdk",
-      "generic",
-      true
+        uid,
+        "kdkkd",
+        "kdkdk",
+        "generic",
+        true
     );
 
 }
@@ -36,8 +37,12 @@ const callKeepConfig = {
     },
 };
 const answerCall = () => {
-    // RNCallKeep.endAllCalls()
+    // const navigation = useNavigation<GenericNavigationProps>();
+
+
+    RNCallKeep.endAllCalls()
     RNCallKeep.backToForeground();
+    // navigation.navigate('Main', {screen: 'VideoCallScreen'});
     console.log("dd3")
 }
 const endCall = () => {
@@ -52,5 +57,5 @@ const RegisterCallKeep = async () => {
     await RNCallKeep.registerAndroidEvents();
     await RNCallKeep.setAvailable(true);
     RNCallKeep.addEventListener("answerCall", answerCall);
-    // RNCallKeep.addEventListener("endCall", endCall);
+    RNCallKeep.addEventListener("endCall", endCall);
 };
