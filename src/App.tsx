@@ -14,11 +14,19 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import InnerApp from './InnerApp';
 
-import {requestUserPermission,NotificationListner} from './notification/firebase'
+import { requestUserPermission, NotificationListner } from './notification/firebase';
+import RNCallKeep from 'react-native-callkeep';
+import { useNavigation } from '@react-navigation/native';
+import { GenericNavigationProps } from '@routes/types';
+import { Platform } from 'react-native';
+
 
 enableScreens();
 
 const App: FC = () => {
+  // const navigation = useNavigation();
+  // const navigation = useNavigation<GenericNavigationProps>();
+
   useEffect(() => {
     isMountedRef.current = true;
 
@@ -26,13 +34,34 @@ const App: FC = () => {
   }, []);
 
   useEffect(() => {
+    // navigation.navigate()
     SplashScreen.hide();
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     requestUserPermission();
     NotificationListner();
-  },[])
+  }, [])
+
+  useEffect(() => {
+    RNCallKeep.addEventListener('answerCall', (data) => {
+        if ('android' === Platform.OS) {
+            // RNUnlockDevice.unlock();
+            RNCallKeep.endAllCalls();
+            RNCallKeep.backToForeground();
+            console.log("dd")
+        }
+    });
+
+    RNCallKeep.addEventListener('endCall', (data) => {
+      RNCallKeep.endAllCalls();
+      console.log("call3")
+  
+    });
+})
+
+
+ 
 
 
 

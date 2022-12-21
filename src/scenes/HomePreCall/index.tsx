@@ -35,8 +35,8 @@ import { useNavigation } from '@react-navigation/native';
 import { GenericNavigationProps } from '@routes/types';
 
 const HomePreCall = () => {
-    const API_URL = 'https://6aa9-113-160-172-8.ap.ngrok.io/'
-    const navigation = useNavigation<GenericNavigationProps>()
+    const API_URL = 'https://a6f5-113-160-172-8.ap.ngrok.io/'
+    const navigation = useNavigation<GenericNavigationProps>();
     const dispatch = useDispatch()
     // const { props, setProps} = useSelector(propsHandlerFullInfo)
     const [propsPayload, setPropsPayload] = useState({
