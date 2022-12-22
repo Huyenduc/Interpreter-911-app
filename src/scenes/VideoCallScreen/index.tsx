@@ -39,6 +39,7 @@ import styles from './styles'
 
 import MateriaLicons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { Image } from 'native-base';
 
 const VideoCallScreen = () => {
     const dispatch = useDispatch()
@@ -131,8 +132,9 @@ const VideoCallScreen = () => {
                         applyZOrder={true}
                         style={styles.localVideo}
                     /> :
-                        <View style={styles.localVideo}>
-                            <FontAwesome5 name="user" size={30} color="white" />
+                        <View style={styles.disableLocalVideo}>
+                            {/* <FontAwesome5 name="user" size={30} color="white" /> */}
+                            <Image style={styles.imageLocalVideo} source={require('../../assets/images/user.png')} />
 
                         </View>
                 }

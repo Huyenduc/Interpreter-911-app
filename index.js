@@ -16,7 +16,8 @@ import { useNavigation } from '@react-navigation/native';
 
 // const navigation = useNavigation();
 
-messaging().setBackgroundMessageHandler(async () => {
+messaging().setBackgroundMessageHandler(async (e) => {
+  console.log(e)
   handleCallNotification()
 
 });

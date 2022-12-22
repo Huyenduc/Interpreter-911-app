@@ -1,7 +1,11 @@
 import RNCallKeep from 'react-native-callkeep';
 import { Platform } from 'react-native'
+
 import { useNavigation } from '@react-navigation/native';
 import { GenericNavigationProps } from '@routes/types';
+import { navigate } from '../routes/navigationUtils';
+import { NativeModules } from "react-native";
+
 
 // import { useEffect } from 'react';
 
@@ -41,9 +45,15 @@ const answerCall = () => {
 
 
     RNCallKeep.endAllCalls()
+
+    if (Platform.OS === "android") {
+        const { CallkeepHelperModule } = NativeModules;
+        CallkeepHelperModule.startActivity();
+        RNCallKeep.endAllCalls();
+    }
+    // this.IsRinging = false;
+    // navigate("somewhere");
     RNCallKeep.backToForeground();
-    // navigation.navigate('Main', {screen: 'VideoCallScreen'});
-    console.log("dd3")
 }
 const endCall = () => {
     RNCallKeep.endAllCalls();
