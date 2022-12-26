@@ -4,16 +4,17 @@ import styles from './styles';
 
  const CallWaiting =()=> {
     return (
-        <View>
+        <View style={styles.contentViewContainer}>
             <Text>911</Text>
-            <View>
+            <View style={styles.avatar}>
                 <Image source={require('../../assets/images/image.png')} />
             </View>
             <View>
-                <Text>
+                <Text style={styles.connect}>
                     Connecting...
                 </Text>
             </View>
+
         </View>
     )
 }

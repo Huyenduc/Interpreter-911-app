@@ -25,7 +25,7 @@ enableScreens();
 
 const App: FC = () => {
   // const navigation = useNavigation();
-  const navigation = useNavigation<GenericNavigationProps>();
+  // const navigation = useNavigation<GenericNavigationProps>();
 
   useEffect(() => {
     isMountedRef.current = true;

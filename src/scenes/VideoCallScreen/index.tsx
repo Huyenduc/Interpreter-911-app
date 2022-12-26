@@ -40,6 +40,7 @@ import styles from './styles'
 import MateriaLicons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { Image } from 'native-base';
+import CallWaiting from '@scenes/CallWaiting';
 
 const VideoCallScreen = () => {
     const dispatch = useDispatch()
@@ -49,7 +50,8 @@ const VideoCallScreen = () => {
     const [open, setOpen] = useState(true)
 
     const { props, setProps } = useSelector(propsHandlerFullInfo)
-    console.log("porp",props)
+    console.log("porp", props.videoTracks)
+    console.log("porp2", props.status)
 
     useEffect(() => {
         twilioVideo.current.connect({
@@ -111,40 +113,38 @@ const VideoCallScreen = () => {
     return (
         <View style={styles.callContainer}>
 
-            <View style={{ flex: 1, marginBottom: '10%' }}>
-                {(props.status === 'connected' || props.status === 'connecting') && (
-                    <View style={styles.callWrapper}>
-                        {props.status === 'connected' && (
-                            <View style={styles.remoteGrid}>
-                                {Array.from(props.videoTracks, ([trackSid, trackIdentifier]) => (
-                                    <TwilioVideoParticipantView
-                                        style={styles.remoteVideo}
-                                        key={trackSid}
-                                        trackIdentifier={trackIdentifier}
-                                    />
-                                ))}
-                            </View>
-                        )}
-                    </View>
-                )}
-                {
-                    props.isVideoEnabled ? <TwilioVideoLocalView
-                        enabled={props.status === 'connecting'}
-                        applyZOrder={true}
-                        style={styles.localVideo}
-                    /> :
-                        <View style={styles.disableLocalVideo}>
-                            {/* <FontAwesome5 name="user" size={30} color="white" /> */}
-                            <Image style={styles.imageLocalVideo} source={require('../../assets/images/user.png')} />
-
+            {props.status==="ok" ?
+                <View style={{ flex: 1, marginBottom: '10%' }}>
+                    { (
+                        <View style={styles.callWrapper}>
+                            { (
+                                <View style={styles.remoteGrid}>
+                                    {Array.from(props.videoTracks, ([trackSid, trackIdentifier]) => (
+                                        <TwilioVideoParticipantView
+                                            style={styles.remoteVideo}
+                                            key={trackSid}
+                                            trackIdentifier={trackIdentifier}
+                                        />
+                                    ))}
+                                </View>
+                            )}
                         </View>
-                }
+                    )}
+                    {
+                        props.isVideoEnabled ? <TwilioVideoLocalView
+                            enabled={props.status === 'ok'}
+                            applyZOrder={true}
+                            style={styles.localVideo}
+                        /> :
+                            <View style={styles.disableLocalVideo}>
+                                <Image style={styles.imageLocalVideo} source={require('../../assets/images/user.png')} />
 
+                            </View>
+                    }
 
-
-
-            </View>
-
+                </View>
+                : <CallWaiting />
+            }
 
 
             <View style={styles.optionsContainer}>
@@ -171,7 +171,7 @@ const VideoCallScreen = () => {
                 ref={twilioVideo}
                 onRoomDidConnect={() => {
                     // setProps({ ...props, status: 'connected' });
-                    dispatch(propsSetStatus('connected'))
+                    dispatch(propsSetStatus('connected2'))
                 }}
                 onRoomDidDisconnect={() => {
                     // setProps({ ...props, status: 'disconnected' });
@@ -208,6 +208,7 @@ const VideoCallScreen = () => {
                                 },
                             ],
                         ])))
+                        dispatch(propsSetStatus('ok'))
                     }
                 }}
                 onParticipantRemovedVideoTrack={({ track }) => {
