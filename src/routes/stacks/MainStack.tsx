@@ -7,6 +7,7 @@ import RegisterPage from '@scenes/RegisterPage';
 import MainPage from '@scenes/MainPage';
 import HomePreCall from '@scenes/HomePreCall';
 import VideoCallScreen from '@scenes/VideoCallScreen';
+import CallWaiting from '@scenes/CallWaiting';
 import customTheme from '@theme';
 import { FC } from 'react';
 import * as React from 'react';
@@ -45,6 +46,14 @@ export const MainStackScreen: FC = () => {
       <MainStack.Screen
         name="VideoCallScreen"
         component={VideoCallScreen}
+        options={{
+          headerShown: false,
+          headerTitleAlign: 'center'
+        }}
+      />
+       <MainStack.Screen
+        name="CallWaiting"
+        component={CallWaiting}
         options={{
           headerShown: false,
           headerTitleAlign: 'center'

@@ -35,7 +35,7 @@ import { useNavigation } from '@react-navigation/native';
 import { GenericNavigationProps } from '@routes/types';
 
 const HomePreCall = () => {
-    const API_URL = 'https://7fcc-14-163-238-107.ap.ngrok.io/'
+    const API_URL = 'https://907c-14-163-238-107.ap.ngrok.io/'
     const navigation = useNavigation<GenericNavigationProps>();
     const dispatch = useDispatch()
     // const { props, setProps} = useSelector(propsHandlerFullInfo)
@@ -154,29 +154,31 @@ const HomePreCall = () => {
                 disabled={false}
                 style={styles.button}
                 onPress={() => {
+                    navigation.navigate('Main', {screen: 'CallWaiting'});
+
                     dispatch(propsSetUsername(propsPayload.userName))
                     dispatch(propsSetRoomname(propsPayload.roomName))
-                    _checkPermissions(() => {
-                    fetch(`${API_URL}getToken?userName=duc`)
-                        .then((response) => {
-                        if (response.ok) {
-                            // console.log(response.text().then())
-                            response.text().then((jwt) => {
-                            dispatch(propsSetToken(jwt))
-                            navigation.navigate('Main', {screen: 'VideoCallScreen'});
-                            return true;
-                            });
-                        } else {
-                            response.text().then((error) => {
-                            Alert.alert(error);
-                            });
-                        }
-                        })
-                        .catch((error) => {
-                        console.log('error', error);
-                        Alert.alert('API not available');
-                        });
-                    });
+                    // _checkPermissions(() => {
+                    // fetch(`${API_URL}getToken?userName=duc`)
+                    //     .then((response) => {
+                    //     if (response.ok) {
+                    //         // console.log(response.text().then())
+                    //         response.text().then((jwt) => {
+                    //         dispatch(propsSetToken(jwt))
+                    //         navigation.navigate('Main', {screen: 'CallWaiting'});
+                    //         return true;
+                    //         });
+                    //     } else {
+                    //         response.text().then((error) => {
+                    //         Alert.alert(error);
+                    //         });
+                    //     }
+                    //     })
+                    //     .catch((error) => {
+                    //     console.log('error', error);
+                    //     Alert.alert('API not available');
+                    //     });
+                    // });
                 }}>
                 <Text style={styles.connectButton}>Connect to Video Call</Text>
                 </TouchableOpacity>

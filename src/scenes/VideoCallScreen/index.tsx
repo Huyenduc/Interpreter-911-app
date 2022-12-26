@@ -45,10 +45,11 @@ const VideoCallScreen = () => {
     const dispatch = useDispatch()
     const navigation = useNavigation<GenericNavigationProps>()
     const twilioVideo = useRef<any>(null);
-    console.log("ok1", twilioVideo)
+    // console.log("ok1", twilioVideo)
     const [open, setOpen] = useState(true)
 
     const { props, setProps } = useSelector(propsHandlerFullInfo)
+    console.log("porp",props)
 
     useEffect(() => {
         twilioVideo.current.connect({

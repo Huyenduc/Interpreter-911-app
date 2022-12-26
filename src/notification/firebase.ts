@@ -16,12 +16,10 @@ export const requestUserPermission = async () => {
 
     }
     catch (error) {
-        console.log('Authorization error:', error);
+            console.log('Authorization error:', error);
+        }
+
     }
-
-
-
-}
 
 const getToken = async () => {
     const devicesToken = await AsyncStorage.getItem('devicesToken');
@@ -55,7 +53,7 @@ RNCallKeep.setup({
         //     notificationTitle: 'My app is running on background',
         //     notificationIcon: 'Path to the resource icon of the notification',
         // },
-    }
+}
 });
 
 // RNCallKeep.setup(options);

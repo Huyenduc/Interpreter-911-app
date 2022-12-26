@@ -26,25 +26,10 @@ export const handleCallNotification = async () => {
 
 }
 
-const callKeepConfig = {
-    ios: {
-        appName: "appname",
-    },
 
-    android: {
-        alertTitle: "Permissions required",
-        additionalPermissions: [],
-        alertDescription: "This application needs to access your phone accounts",
-        cancelButton: "Cancel",
-        //   additionalPermissions: [],
-        okButton: "ok",
-    },
-};
 const answerCall = () => {
-    // const navigation = useNavigation<GenericNavigationProps>();
-
-
-    RNCallKeep.endAllCalls()
+    RNCallKeep.endAllCalls();
+    RNCallKeep.setCurrentCallActive("YOUR CALL UUID");
 
     if (Platform.OS === "android") {
         const { CallkeepHelperModule } = NativeModules;
