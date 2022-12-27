@@ -1,97 +1,123 @@
 import { StyleSheet } from 'react-native';
+import { blob } from 'stream/consumers';
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    height: '100%',
-  },
-  title: {
-    fontSize: 24,
-    color: '#DC0000',
-    fontWeight: '600',
-  },
-  imgLogo: {
-    width: '50%',
-    resizeMode: 'contain',
-  },
-  headerInner: {
-    width: '100%',
-    minHeight: '35%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  centerInner: {
-    width: '100%',
-  },
-  formView: {
-    width: '100%',
-  },
-  footerInner: {
-    fontSize: 20,
-    paddingTop: 20,
-    height: '20%',
-  },
-  inputLabel: {
-    fontSize: 20,
-  },
-  textSignIn: {
+    container: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100%'
+    },
+    title: {
+        fontSize: 24,
+        color: '#DC2222',
+        fontWeight: 'bold',
+    },
+    imgLogo:{
+        width: '50%',
+        minHeight: '10%',
+        resizeMode: 'contain'
+    },
+    headerInner: {
+        width: '90%',
+        height: '30%',
+        display: 'flex',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        paddingTop: 20,
+        paddingBottom: 20
+    },
+    centerInner:{
+        // backgroundColor: 'salmon',
+        width: '90%',
+        height: '55%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    formView:{
+        width: '100%'
+    },  
+    footerInner: {
+        width: '90%',
+        height: '15%',
+        display: 'flex',
+        alignItems: 'center',
+        flexDirection: 'row',
+        fontSize: 20,
+        paddingTop: 20,
+    },
+    inputLabel: {
+        fontSize: 20
+    },
+    textBold: {
+        fontSize: 16,
+        textDecoration: 'none',
+        color: '#FF4040',
+        fontWeight: '500',
+    },
+    textSignIn: {
     color: 'white',
     fontWeight: '500',
     fontSize: 20,
     letterSpacing: 2,
-  },
-  buttonContainer: {
-    marginLeft: 'auto',
-  },
-  createLabel: {
-    fontSize: 17,
-  },
-  createButton: {
-    backgroundColor: '#2ba750',
-    width: 120,
-    height: 50,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 7,
-  },
-  buttonStyle: {
-    backgroundColor: '#f194ff',
-  },
-  buttonLabel: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 17,
-  },
-  loginButton: {
-    fontSize: 20,
-  },
-  loginButtonSection: {
-    width: '100%',
-  },
-  centerLink: {
-    display: 'flex',
-    alignItems: 'flex-end',
-    width: '100%',
-  },
-  InputCont: {
-    position: 'relative',
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    height: 55,
-    borderRadius: 7,
-    borderWidth: 1,
-    borderColor: 'lightgray',
-    paddingLeft: 10,
-  },
-  textBold: {
-    fontSize: 16,
-    textDecoration: 'none',
-    color: '#FF4040',
-    fontWeight: '500',
-  },
+    },
+    buttonContainer: {
+        marginLeft: 'auto',
+    },
+    createLabel:{
+        fontSize: 17,
+    },
+    createButton:{
+        backgroundColor: '#2ba750',
+        width: 120,
+        height: 50,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 7,
+    },
+    buttonStyle: {
+        backgroundColor: '#f194ff',
+    },
+    buttonLabel: {
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 17,
+    },
+    loginButton: {
+        fontSize: 20,
+    },
+    loginButtonSection:{
+        width: '100%',
+    },
+    centerLink:{
+        display: 'flex',
+        alignItems: 'center'
+    },
+    InputCont:{
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 55,
+        borderRadius: 7,
+        borderWidth: 1,
+        borderColor: 'lightgray',
+        paddingLeft: 10,
+    },
+    InputPass:{
+        width: '85%'
+    },
+    ShowIcon:{
+        width: '15%',
+        height: '50%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderLeftColor: 'lightgray',
+        borderLeftWidth: 1,
+    },
 });
 
 export default styles;

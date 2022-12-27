@@ -33,18 +33,18 @@ const initialState: UserState = {
     }
 }
 export const UserReducer = createReducer(initialState,{
-    [userLoginRequest.type]: state => {
-        // state.user.loading = true;
-    },
+    // [userLoginRequest.type]: state => {
+        
+    // },
     [userLoginSuccess.type]:(state, {payload}) => {
         state.user = payload;
         // state.user.loading = false;
         console.log('success-request')
     },
-    [userLoginFailed.type]:state => {
-        // state.user.loading = false
-        console.log('error-request')
-    },
+    // [userLoginFailed.type]:state => {
+    //     // state.user.loading = false
+    //     console.log('error-request')
+    // },
     [removeAccessToken.type]: state => {
         state.user.accessToken = ""
     }

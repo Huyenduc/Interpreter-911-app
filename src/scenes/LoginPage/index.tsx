@@ -57,9 +57,10 @@ const LoginPage: FC = () => {
     }
   };
   const onLogin = async () => {
-    console.log(payloadLogin);
-    setLoading(true);
-    await handleLogin();
+    // console.log(payloadLogin);
+    // setLoading(true);
+    // await handleLogin();
+    navigation.navigate('Main', {screen: 'LanguagePage'})
   };
 
   useFocusEffect(
@@ -106,7 +107,7 @@ const LoginPage: FC = () => {
           </Button>
         </Stack>
         <Box style={styles.loginButtonSection}>
-          <Button backgroundColor={`${loading ? 'red.400' : 'red.500'}`} rounded="md" h={55} onPress={handleSubmit(onLogin)}>
+          <Button backgroundColor={`${loading ? 'red.400' : 'red.500'}`} rounded="md" h={55} onPress={onLogin}>
             <HStack space={3} justifyContent="center">
               {loading && <Spinner color="white" />}
               <Text style={styles.textSignIn}>Sign In</Text>

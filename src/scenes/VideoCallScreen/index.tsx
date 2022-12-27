@@ -188,6 +188,7 @@ const VideoCallScreen = () => {
                 // ]),
                 // });
                 dispatch(propsSetTrack(new Map([
+                    ...props.videoTracks,
                     [
                     track.trackSid,
                     {
@@ -199,10 +200,13 @@ const VideoCallScreen = () => {
             }
             }}
             onParticipantRemovedVideoTrack={({ track }) => {
+                console.log('track', track)
             const videoTracks = props.videoTracks;
             // videoTracks.delete(track.trackSid);
+            console.log('deleted: ', videoTracks.delete(track.trackName))
             // setProps({ ...props, videoTracks });
-            dispatch(propsSetTrack(videoTracks))
+            // dispatch(propsSetTrack(videoTracks))
+            // dispatch(propsSetTrack({...props, props.videoTracks: videoTracks}))
             }}
         />
         </View>
