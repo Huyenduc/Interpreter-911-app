@@ -1,11 +1,8 @@
 import i18n from '@i18n';
-import { loadingSet, loadingReset } from '@redux/loading/actions';
-import * as RootNavigation from '../../routes/navigationUtils'
 import { messageHandlerSet } from '@redux/messageHandler/actions';
 import { PayloadAction } from '@reduxjs/toolkit';
 import isEmpty from 'lodash/isEmpty';
 import { call, ForkEffect, put, takeLatest } from 'redux-saga/effects';
-
 import {
   createUserFailed,
   createUserRequest,
@@ -17,10 +14,8 @@ import {
   getUsersListFailed,
   getUsersListRequest,
   getUsersListSuccess,
+  loginUserRequest,
   modifyUserRequest,
-  userLoginRequestt,
-  userLoginSuccesss,
-  userLoginFailedd,
 } from './actions';
 import * as UsersAPI from './apiCall';
 import {
@@ -35,6 +30,7 @@ import {
   DeleteUserRequestPayload,
   UserLogin
 } from './types';
+
 function* getUsersListSaga({ payload }: PayloadAction<UsersRequestPayload>) {
   try {
     const response: UsersSuccessPayload = yield call(UsersAPI.getUsers, { ...payload });
@@ -113,31 +109,28 @@ function* deleteUserSaga({ payload }: PayloadAction<DeleteUserRequestPayload>) {
     );
   }
 }
-function* userLoginSaga({ payload }: PayloadAction<UserLogin>) {
-  try {
-    const response: { status: number } = yield call(UsersAPI.login, { ...payload });
-    if (response.status === 200) {
-      yield put(messageHandlerSet({ message: i18n.t('Homepage:UserLogined'), status: 'success' }));
-      RootNavigation.navigate('Main', {screen: 'HomePreCall'})
-    } else {
-      yield put(messageHandlerSet({ message: i18n.t('Homepage:UserNotLogined'), status: 'error' }));
-      
-    }
-  } catch (err: any) {
-    yield put(
-      messageHandlerSet({ message: err?.message?.message ?? i18n.t('Homepage:UserNotLogined'), status: 'error' }),
-    );
-    // yield put(loadingSet({loadingStatus: false}))
-    console.log('err: ', err)
-  }
-}
+// function* userLoginSaga({ payload }: PayloadAction<UserLogin>) {
+//   try {
+//     const response: { status: number } = yield call(UsersAPI.login, { ...payload });
+
+//     if (response.status === 204) {
+//       yield put(messageHandlerSet({ message: i18n.t('Homepage:UserLogined'), status: 'success' }));
+//     } else {
+//       yield put(messageHandlerSet({ message: i18n.t('Homepage:UserNotLogined'), status: 'error' }));
+//     }
+//   } catch (err: any) {
+//     yield put(
+//       messageHandlerSet({ message: err?.message?.message ?? i18n.t('Homepage:UserNotLogined'), status: 'error' }),
+//     );
+//   }
+// }
 function* usersSaga(): Generator<ForkEffect<never>, void> {
   yield takeLatest(getUsersListRequest.type, getUsersListSaga);
   yield takeLatest(getUserDetailsRequest.type, getUserDetailsSaga);
   yield takeLatest(createUserRequest.type, createUserSaga);
   yield takeLatest(modifyUserRequest.type, modifyUserSaga);
   yield takeLatest(deleteUserRequest.type, deleteUserSaga);
-  yield takeLatest(userLoginRequestt.type, userLoginSaga);
+  // yield takeLatest(loginUserRequest.type, userLoginSaga);
 }
 
 export default usersSaga;

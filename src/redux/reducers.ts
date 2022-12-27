@@ -4,15 +4,11 @@ import { persistCombineReducers } from 'redux-persist';
 import messagesReducer from './messageHandler/reducers';
 import testReducer from './testHandler/reducers';
 import propsReducer from './propsHandler/reducers';
-import loadingReducer from './loading/reducers';
-import { UserReducer } from './loginReq/reducers';
 const reducers = {
-  user: UserReducer,
   users: usersReducer,
   messages: messagesReducer,
   test: testReducer,
-  props: propsReducer,
-  loading: loadingReducer,
+  props: propsReducer
 };
 
 const persistConfig = {

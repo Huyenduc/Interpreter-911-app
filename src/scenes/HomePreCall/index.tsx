@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import {
   StyleSheet,
   View,
@@ -12,8 +12,7 @@ import {
   Platform,
   ScrollView,
   Dimensions,
-  useColorScheme,
-  BackHandler
+  useColorScheme
 } from 'react-native';
 import {
     checkMultiple,
@@ -32,17 +31,15 @@ import {
 } from '@redux/propsHandler/actions';
 import { PropsPayload } from '@redux/propsHandler/types';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { GenericNavigationProps } from '@routes/types';
-import { userLoginPayload } from '@redux/loginReq/selectors';
 
 const HomePreCall = () => {
-    const API_URL = 'https://db20-27-72-97-141.ngrok.io'
-    const navigation = useNavigation<GenericNavigationProps>()
+    const API_URL = 'https://3333-113-160-172-8.ap.ngrok.io/'
+    const navigation = useNavigation<GenericNavigationProps>();
     const dispatch = useDispatch()
-    const user = useSelector(userLoginPayload)
-    console.log('user:', user)
     const [propsPayload, setPropsPayload] = useState({
+        
             isAudioEnabled: true,
             isVideoEnabled: true,
             status: 'disconnected',
@@ -53,7 +50,7 @@ const HomePreCall = () => {
             token: '',
         
     })
-    console.log('url:', API_URL)
+    
     const _checkPermissions = (callback?: any) => {
         const iosPermissions = [PERMISSIONS.IOS.CAMERA, PERMISSIONS.IOS.MICROPHONE];
         const androidPermissions = [
@@ -125,19 +122,7 @@ const HomePreCall = () => {
         _checkPermissions();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    // -----------disable back button-----------
-    // useFocusEffect(
-    //     React.useCallback(() => {
-    //         const onBackPress = () => {
-    //             return true;
-    //         };
-        
-    //         BackHandler.addEventListener('hardwareBackPress', onBackPress);
-            
-    //         return () =>
-    //             BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-    //     }, []),
-    //   );
+
     return (
         <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -162,18 +147,21 @@ const HomePreCall = () => {
                     onChangeText={(text) => setPropsPayload({...propsPayload, roomName: text})}
                 />
             </View>
+            
             <View style={styles.formGroup}>
                 <TouchableOpacity
                 disabled={false}
                 style={styles.button}
                 onPress={() => {
+                    // navigation.navigate('Main', {screen: 'VideoCallScreen'});
                     dispatch(propsSetUsername(propsPayload.userName))
                     dispatch(propsSetRoomname(propsPayload.roomName))
                     _checkPermissions(() => {
-                    fetch(`${API_URL}getToken?userName=mnam`)
+                    fetch(`${API_URL}getToken?userName=duc`)
                         .then((response) => {
+                        console.log("connect",response)
+
                         if (response.ok) {
-                            // console.log(response.text().then())
                             response.text().then((jwt) => {
                             dispatch(propsSetToken(jwt))
                             navigation.navigate('Main', {screen: 'VideoCallScreen'});

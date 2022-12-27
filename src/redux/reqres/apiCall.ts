@@ -1,5 +1,6 @@
 import ApiClient from '@api';
 import env from '@env';
+
 import {
   CreateUserRequestPayload,
   CreateUserSuccessPayload,
@@ -12,6 +13,7 @@ import {
   UsersSuccessPayload,
   UserLogin
 } from './types';
+import axios from 'axios'
 
 export async function getUsers({ pageParam, per_page }: UsersRequestPayload) {
   try {
@@ -40,6 +42,19 @@ export async function getUserDetails({ userId }: UserDetailsRequestPayload) {
     return response.data;
   } catch (error) {
     console.error('getUserDetails - Error: ', error);
+    throw error;
+  }
+}
+export async function loginRequest({email, password} : UserLogin){
+  try {
+    const response = await ApiClient.post('http://10.0.2.2:3001/auth/login', {
+      email: email,
+      password: password
+    })
+    return response.data;
+  }
+  catch (error) {
+    console.log(error)
     throw error;
   }
 }
@@ -87,16 +102,33 @@ export async function deleteUser({ userId }: DeleteUserRequestPayload) {
     throw error;
   }
 }
-export async function login({ email, password }: UserLogin) {
-  try {
-    // const navigation = useNavigation<GenericNavigationProps>()
-    const response = await ApiClient.post(`https://636c968491576e19e30f5c65.mockapi.io/user/users`, {email, password});
-    // if(response.status === 201){
-    //   navigation.navigate('Main', {screen: 'Home'})
-    // }
-    return response;
-  } catch (error) {
-    console.error('Login Error: ', error);
-    throw error;
-  }
-}
+// export async function login({dataLogin}:UserLogin) {
+//   try {
+//     const response = await axios.post('http://10.10.21.91:3001/auth/login',{dataLogin});
+//     return response
+//   }
+//   catch (error) {
+//     console.error(error);
+//     throw error;
+//   }
+// }
+// export async function register({email, password}:UserLogin) {
+//   try {
+//     const response = await axios.post('http://10.10.21.91:3001/auth/login');
+//     return response
+//   }
+//   catch (error) {
+//     console.error(error);
+//     throw error;
+//   }
+// }
+// export async function getUsers(){
+//   try {
+//     const response = await axios.get('http://10.10.21.91:3001/auth/login');
+//     return response
+//   }
+//   catch (error) {
+//     console.error(error);
+//     throw error;
+//   }
+// }

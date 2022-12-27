@@ -1,128 +1,146 @@
-import CustomInput from '@components/Input/CustomInput';
-import i18n from '@i18n';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { userLoginSuccess } from '@redux/loginReq/actions';
-import { messageHandlerSet } from '@redux/messageHandler/actions';
+import { 
+    View,
+    Button,
+    Link,
+    Box,
+    Stack, useToast,
+ } from 'native-base';
+import React, { FC, useState } from 'react';
+import { 
+    Text, 
+    TextInput, 
+    TouchableOpacity, Image
+} from 'react-native';
 import type { UserLogin } from '@redux/reqres/types';
-import { GenericNavigationProps } from '@routes/types';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from '@scenes/LoginPage/styles';
-import { Button, Box, Stack, Spinner, HStack, Flex } from 'native-base';
-import React, { FC, useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { Text, Image, BackHandler } from 'react-native';
-import { useDispatch } from 'react-redux';
-
+import Icon from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from '@react-navigation/native';
+import { GenericNavigationProps } from '@routes/types';
+// import { testHandlerSet } from '@redux/testHandler/actions';
+import { testHandlerPayload } from '@redux/testHandler/types';
+// import { put } from 'redux-saga/effects';
+// import ApiClient from '@api';
+// import { navigate } from '@routes/navigationUtils';
+// import { propsHandlerFullInfo } from '@redux/propsHandler/selectors';
 const LoginPage: FC = () => {
-  const dispatch = useDispatch();
-  // const toast = useToast()
-  // const userInfor = useSelector(userLoginPayload)
-  const navigation = useNavigation<GenericNavigationProps>();
-  // const {loadingStatus} = useSelector(loadingGetStatus)
-  // const loading = useSelector(userLoginLoading)
-  const [payloadLogin, setPayloadLogin] = React.useState<UserLogin>({
-    // dataLogin: {
-    email: '',
-    password: '',
-    // }
-  });
-  const { control, handleSubmit } = useForm();
-  const [loading, setLoading] = useState(false);
-  const handleLogin = async () => {
-    try {
-      const response = await fetch('http://10.0.2.2:3001/api/auth/login', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: payloadLogin.email,
-          password: payloadLogin.password,
-        }),
-      });
-      const json = await response.json();
-      if (response.status === 201) {
-        dispatch(messageHandlerSet({ message: i18n.t('Login Successful'), status: 'success' }));
-        // setTimeout(() => {
-        //     navigation.navigate('Main', {screen: 'LanguagePage'});
-        // }, 1200)
-        dispatch(userLoginSuccess(json));
-      } else {
-        dispatch(messageHandlerSet({ message: i18n.t('Wrong email or password'), status: 'error' }));
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
+    const dispatch = useDispatch()
+    const toast = useToast()
+    const navigation = useNavigation<GenericNavigationProps>();
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const [showPass, setShowPass] = React.useState(true);
+    const [payloadLogin, setPayloadLogin] = React.useState<UserLogin>({
+        // dataLogin: {
+            email: '',
+            password: ''
+        // }
+    })
+    const [payloadData, setPayloadData] = useState<testHandlerPayload>({
+        payloads: ''
+    })
+    const handleShowPass = () => setShowPass(!showPass);
+    const onLogin = async () => {
+        console.log(payloadLogin);
+        // dispatch(loginUserRequest({email: username, password: passWord}))
+        // ApiClient.post('http://10.0.2.2:3001/auth/login', payloadLogin)
+        // .then(res => {
+        //     console.log(res.data)
+        //     toast.show({
+        //         placement: 'top',
+        //         render: () => {
+        //             return <Box bg="emerald.500" px="2" py="1" rounded="sm" mb={1}>
+        //                         <Text>Sign-In Successful</Text>
+        //                 </Box>;
+        //             }
+        //         });
+        //         navigation.navigate('Main', {screen: 'MainPage'})
+        // })
+        // .catch(err =>  {
+        //     console.log(err)
+        //     toast.show({
+        //         placement: 'top',
+        //         render: () => {
+        //             return <Box bg="red.500" color='white' px="2" py="1" rounded="sm" mb={1}>
+        //                         <Text>Sign-In Error</Text>
+        //                 </Box>;
+        //             }
+        //         });
+        // })
+        // dispatch(testHandlerSet(payloadData))
+        navigation.navigate('Main', {screen: 'HomePreCall'});
     }
-  };
-  const onLogin = async () => {
-    console.log(payloadLogin);
-    setLoading(true);
-    await handleLogin();
-  };
-
-  useFocusEffect(
-    React.useCallback(() => {
-      const onBackPress = () => {
-        return true;
-      };
-      BackHandler.addEventListener('hardwareBackPress', onBackPress);
-      return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-    }, []),
-  );
-  useEffect(() => {
-    console.log('loading: ', loading);
-    // getToken()
-  }, [loading]);
-  return (
-    <Flex style={styles.container}>
-      <Box style={styles.headerInner}>
-        <Image style={styles.imgLogo} source={require('../../../assets/logo-resize.png')} />
-        <Text style={styles.title}>Customer Login</Text>
-      </Box>
-      <Stack space={4} style={styles.centerInner}>
-        <Stack space={2} style={styles.formView}>
-          <CustomInput
-            name="username"
-            placeholder="Username or email"
-            control={control}
-            onChangeText={value => setPayloadLogin({ ...payloadLogin, email: value })}
-            rules={{ required: 'Username or email is required' }}
-          />
-          <CustomInput
-            name="password"
-            placeholder="Password"
-            secureTextEntry={true}
-            control={control}
-            rules={{
-              required: 'Password is required',
-              minLength: { value: 3, message: 'Password should be minimum 3 characters long' },
-            }}
-            onChangeText={value => setPayloadLogin({ ...payloadLogin, password: value })}
-          />
-          <Button style={styles.centerLink}>
-            <Text style={styles.textBold}>Forgot password?</Text>
-          </Button>
-        </Stack>
-        <Box style={styles.loginButtonSection}>
-          <Button backgroundColor={`${loading ? 'red.400' : 'red.500'}`} rounded="md" h={55} onPress={handleSubmit(onLogin)}>
-            <HStack space={3} justifyContent="center">
-              {loading && <Spinner color="white" />}
-              <Text style={styles.textSignIn}>Sign In</Text>
-            </HStack>
-          </Button>
+    // const {props} = useSelector(propsHandlerFullInfo)
+    return (
+    <Box style={styles.container}>
+        <Box style={styles.headerInner}>
+            <Image style={styles.imgLogo} source={require('../../../assets/logo-resize.png')}/>
         </Box>
-      </Stack>
-      <Flex direction='column' justifyContent='flex-end' style={styles.footerInner}>
-        <Flex direction='row' align='center' >
-          <Text style={styles.createLabel}>You are an Interpreter?</Text>
-          <Button onPress={() => navigation.navigate('Main', { screen: 'InterpreterLogin' })}>
-            <Text style={styles.textBold}>Sign In Now</Text>
-          </Button>
-        </Flex>
-      </Flex>
-    </Flex>
+        <Box style={styles.centerInner}>
+            <Box style={styles.formView} mb={1}>
+            <Stack space={4} w="100%" mx="auto">
+                <View style={styles.InputCont}>
+                    <TextInput style={styles.InputPass} 
+                        placeholder='Username or Email'
+                        placeholderTextColor='grey'
+                        onChangeText={value => setPayloadLogin({...payloadLogin, email: value})}
+                    /> 
+                </View>
+                <View style={styles.InputCont}>
+                    <TextInput style={styles.InputPass} 
+                        placeholder='Password'
+                        secureTextEntry={showPass}
+                        placeholderTextColor='grey'
+                        onChangeText={value => setPayloadLogin({...payloadLogin, password: value})}
+                    /> 
+                    <View style={styles.ShowIcon}>
+                        <TouchableOpacity
+                            onPress={() => setShowPass(!showPass)}
+                        >
+                        <Icon name={showPass ? "eye" : "eye-off"} size={25} color="#5b5b5b" />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Stack>
+            </Box>
+            <Box
+                mt={8}
+                style={styles.loginButtonSection}
+            >
+                <Button 
+                    backgroundColor='red.500'
+                    rounded='md'
+                    h='60px'
+                    onPress={onLogin}
+                    // onPress={() => {
+                    //     socket.on("connect", () => {
+                    //         console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+                    //       });
+                    // }}
+                    _text={{color: 'white', fontWeight: 'bold', fontSize: '22', letterSpacing: '2'}}
+                >
+                    Sign In
+                </Button>
+                <Box mt={5} style={styles.centerLink} >
+                    <Link href="" _text={{fontSize: '15', textDecoration: 'none', color: 'blue.500'}}>
+                        Forgot password?
+                    </Link>
+                </Box>
+            </Box>
+        </Box>
+        <Box style={styles.footerInner}>
+            <Text style={styles.createLabel}>Don't have an account?</Text>
+            <Box style={styles.buttonContainer}>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('Main', {screen: 'Register'})}
+                >
+                    <Box style={styles.createButton}>
+                        <Text style={styles.buttonLabel}>Create New</Text>
+                    </Box>
+                </TouchableOpacity>
+            </Box>
+        </Box>
+    </Box>
   );
 };
 export default LoginPage;
