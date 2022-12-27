@@ -35,10 +35,9 @@ import { useNavigation } from '@react-navigation/native';
 import { GenericNavigationProps } from '@routes/types';
 
 const HomePreCall = () => {
-    const API_URL = 'https://ae4f-113-160-172-8.ap.ngrok.io/'
+    const API_URL = 'https://3333-113-160-172-8.ap.ngrok.io/'
     const navigation = useNavigation<GenericNavigationProps>();
     const dispatch = useDispatch()
-    // const { props, setProps} = useSelector(propsHandlerFullInfo)
     const [propsPayload, setPropsPayload] = useState({
         
             isAudioEnabled: true,
@@ -51,7 +50,7 @@ const HomePreCall = () => {
             token: '',
         
     })
-    console.log('url:', API_URL)
+    
     const _checkPermissions = (callback?: any) => {
         const iosPermissions = [PERMISSIONS.IOS.CAMERA, PERMISSIONS.IOS.MICROPHONE];
         const androidPermissions = [
@@ -155,14 +154,14 @@ const HomePreCall = () => {
                 style={styles.button}
                 onPress={() => {
                     // navigation.navigate('Main', {screen: 'VideoCallScreen'});
-
                     dispatch(propsSetUsername(propsPayload.userName))
                     dispatch(propsSetRoomname(propsPayload.roomName))
                     _checkPermissions(() => {
                     fetch(`${API_URL}getToken?userName=duc`)
                         .then((response) => {
+                        console.log("connect",response)
+
                         if (response.ok) {
-                            // console.log(response.text().then())
                             response.text().then((jwt) => {
                             dispatch(propsSetToken(jwt))
                             navigation.navigate('Main', {screen: 'VideoCallScreen'});

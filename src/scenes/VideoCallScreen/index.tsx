@@ -1,20 +1,12 @@
 import 'react-native-gesture-handler';
 import React, {
-    useState,
     useRef,
     useEffect,
 } from 'react';
 import {
     View,
-    Text,
-    StatusBar,
     TouchableOpacity,
-    TextInput,
     Alert,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    useColorScheme
 } from 'react-native';
 import {
     TwilioVideoLocalView,
@@ -38,7 +30,6 @@ import {
 import styles from './styles'
 
 import MateriaLicons from 'react-native-vector-icons/MaterialIcons';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { Image } from 'native-base';
 import CallWaiting from '@scenes/CallWaiting';
 
@@ -46,60 +37,48 @@ const VideoCallScreen = () => {
     const dispatch = useDispatch()
     const navigation = useNavigation<GenericNavigationProps>()
     const twilioVideo = useRef<any>(null);
-    // console.log("ok1", twilioVideo)
-    const [open, setOpen] = useState(true)
-
     const { props, setProps } = useSelector(propsHandlerFullInfo)
     console.log("porp", props.videoTracks)
     console.log("porp2", props.status)
 
     useEffect(() => {
+        //Kết nối vào phòng
         twilioVideo.current.connect({
             roomName: props.roomName,
             accessToken: props.token,
-            // enableVideo:videoLocal,
-            region: 'gll',
-            bandwidthProfile: {
-                video: {
-                    mode: 'grid',
-                    maxSubscriptionBitrate: 2500000,
-                    dominantSpeakerPriority: 'standard'
-                }
-            },
-            dominantSpeaker: true,
-            dominantSpeakerPriority: 'high',
-            maxAudioBitrate: 16000, //For music remove this line
-            preferredVideoCodecs: [{ codec: 'VP8', simulcast: true }],
-            networkQuality: { local: 1, remote: 2 }
+            // enableVideo:videoLocal
+
         });
-        console.log("ok", twilioVideo.current)
-        // setProps({ ...props, status: 'connecting' });
+
         dispatch(propsSetStatus('connecting'))
         return () => {
             _onEndButtonPress();
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, []);
 
+    //Tắt cuộc gọi
     const _onEndButtonPress = () => {
         twilioVideo.current.disconnect();
         dispatch(propsHandlerReset)
     };
 
+
+    // Tắt tiếng
     const _onMuteButtonPress = () => {
         twilioVideo.current
             .setLocalAudioEnabled(!props.isAudioEnabled)
             .then((isEnabled: any) =>
-                // setProps({ ...props, isAudioEnabled: isEnabled })
                 dispatch(propsEnableAudio(isEnabled))
             );
     };
 
+    //ĐỔi camera
     const _onFlipButtonPress = () => {
         twilioVideo.current.flipCamera();
-
     };
 
+    //Tắt camera ng dunng
     const _onDisableVideoButtonPress = async () => {
         twilioVideo.current
             .setLocalVideoEnabled(!props.isVideoEnabled)
@@ -113,11 +92,11 @@ const VideoCallScreen = () => {
     return (
         <View style={styles.callContainer}>
 
-            {props.status==="ok" ?
+            {props.status === "connected" ?
                 <View style={{ flex: 1, marginBottom: '10%' }}>
-                    { (
+                    {(
                         <View style={styles.callWrapper}>
-                            { (
+                            {(
                                 <View style={styles.remoteGrid}>
                                     {Array.from(props.videoTracks, ([trackSid, trackIdentifier]) => (
                                         <TwilioVideoParticipantView
@@ -132,7 +111,7 @@ const VideoCallScreen = () => {
                     )}
                     {
                         props.isVideoEnabled ? <TwilioVideoLocalView
-                            enabled={props.status === 'ok'}
+                            enabled={props.status === 'connected'}
                             applyZOrder={true}
                             style={styles.localVideo}
                         /> :
@@ -141,17 +120,15 @@ const VideoCallScreen = () => {
 
                             </View>
                     }
-
                 </View>
                 : <CallWaiting />
             }
 
-
             <View style={styles.optionsContainer}>
                 <TouchableOpacity style={[styles.button, { backgroundColor: '#ed3b2d', marginLeft: 10 }]} onPress={_onEndButtonPress}>
-
                     <MateriaLicons name="call-end" size={30} color="white" />
                 </TouchableOpacity>
+
                 <TouchableOpacity style={styles.button} onPress={_onMuteButtonPress}>
                     <MateriaLicons name={props.isAudioEnabled ? 'mic' : 'mic-off'} size={30} color="white" />
                 </TouchableOpacity>
@@ -161,45 +138,29 @@ const VideoCallScreen = () => {
                 </TouchableOpacity>
 
                 <TouchableOpacity style={[styles.button, { marginRight: 10 }]} onPress={_onFlipButtonPress}>
-                    {/* <Text style={styles.buttonText}>Flip</Text> */}
                     <MateriaLicons name="flip-camera-ios" size={30} color="white" />
                 </TouchableOpacity>
             </View>
 
-
             <TwilioVideo
                 ref={twilioVideo}
+
                 onRoomDidConnect={() => {
-                    // setProps({ ...props, status: 'connected' });
-                    dispatch(propsSetStatus('connected2'))
+
                 }}
                 onRoomDidDisconnect={() => {
-                    // setProps({ ...props, status: 'disconnected' });
                     dispatch(propsSetStatus('disconnected'))
                     navigation.goBack();
                 }}
                 onRoomDidFailToConnect={(error) => {
                     Alert.alert('Error', error.error);
-                    // setProps({ ...props, status: 'disconnected' });
                     dispatch(propsSetStatus('disconnected'))
                     navigation.goBack();
                 }}
                 onParticipantAddedVideoTrack={({ participant, track }) => {
                     if (track.enabled) {
-                        // setProps({
-                        // ...props,
-                        // videoTracks: new Map([
-                        //     ...props.videoTracks,
-                        //     [
-                        //     track.trackSid,
-                        //     {
-                        //         participantSid: participant.sid,
-                        //         videoTrackSid: track.trackSid,
-                        //     },
-                        //     ],
-                        // ]),
-                        // });
                         dispatch(propsSetTrack(new Map([
+                            ...props.videoTracks,
                             [
                                 track.trackSid,
                                 {
@@ -208,13 +169,15 @@ const VideoCallScreen = () => {
                                 },
                             ],
                         ])))
-                        dispatch(propsSetStatus('ok'))
                     }
+                }}
+
+                onRoomParticipantDidConnect={(e) => {
+                    dispatch(propsSetStatus("connected"))
                 }}
                 onParticipantRemovedVideoTrack={({ track }) => {
                     const videoTracks = props.videoTracks;
                     // videoTracks.delete(track.trackSid);
-                    // setProps({ ...props, videoTracks });
                     dispatch(propsSetTrack(videoTracks))
                 }}
             />
