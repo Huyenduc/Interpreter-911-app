@@ -1,170 +1,128 @@
-import { 
-    View,
-    Button,
-    Link,
-    Box,
-    Stack, useToast,
-    Spinner, HStack, Heading
- } from 'native-base';
-import React, { FC, useState, useCallback, useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { 
-    Text, 
-    TextInput, 
-    TouchableOpacity, Image,
-    BackHandler
-} from 'react-native';
+import CustomInput from '@components/Input/CustomInput';
 import i18n from '@i18n';
-import type { UserLogin } from '@redux/reqres/types';
-import { useDispatch, useSelector } from 'react-redux';
-import styles from '@scenes/LoginPage/styles';
-import Icon from 'react-native-vector-icons/Ionicons';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
-import { GenericNavigationProps } from '@routes/types';
-import { messageHandlerSet } from '@redux/messageHandler/actions';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { userLoginSuccess } from '@redux/loginReq/actions';
-import { userLoginPayload} from '@redux/loginReq/selectors'
+import { messageHandlerSet } from '@redux/messageHandler/actions';
+import type { UserLogin } from '@redux/reqres/types';
+import { GenericNavigationProps } from '@routes/types';
+import styles from '@scenes/LoginPage/styles';
+import { Button, Box, Stack, Spinner, HStack, Flex } from 'native-base';
+import React, { FC, useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { Text, Image, BackHandler } from 'react-native';
+import { useDispatch } from 'react-redux';
+
 const LoginPage: FC = () => {
-    const dispatch = useDispatch()
-    // const toast = useToast()
-    // const userInfor = useSelector(userLoginPayload)
-    const navigation = useNavigation<GenericNavigationProps>();
-    // const {loadingStatus} = useSelector(loadingGetStatus)
-    // const loading = useSelector(userLoginLoading)
-    const [showPass, setShowPass] = React.useState(true);
-    const [payloadLogin, setPayloadLogin] = React.useState<UserLogin>({
-        // dataLogin: {
-            email: '',
-            password: ''
-        // }
-    })
-    const [loading, setLoading] = useState(false)
-    const handleLogin = async () => {
-        try {
-            const response = await fetch('http://10.0.2.2:3001/auth/login',{
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    email: payloadLogin.email,
-                    password: payloadLogin.password
-                })
-            });
-            const json = await response.json();
-            if(response.status === 201){
-                dispatch(messageHandlerSet({ message: i18n.t('Login Successful'), status: 'success' }))
-                // setTimeout(() => {
-                //     navigation.navigate('Main', {screen: 'LanguagePage'});
-                // }, 1200)
-                dispatch(userLoginSuccess(json))
-            } else{
-                dispatch(messageHandlerSet({ message: i18n.t('Wrong email or password'), status: 'error' }))
-                
-            }
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setLoading(false);
-        }
+  const dispatch = useDispatch();
+  // const toast = useToast()
+  // const userInfor = useSelector(userLoginPayload)
+  const navigation = useNavigation<GenericNavigationProps>();
+  // const {loadingStatus} = useSelector(loadingGetStatus)
+  // const loading = useSelector(userLoginLoading)
+  const [payloadLogin, setPayloadLogin] = React.useState<UserLogin>({
+    // dataLogin: {
+    email: '',
+    password: '',
+    // }
+  });
+  const { control, handleSubmit } = useForm();
+  const [loading, setLoading] = useState(false);
+  const handleLogin = async () => {
+    try {
+      const response = await fetch('http://10.0.2.2:3001/api/auth/login', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: payloadLogin.email,
+          password: payloadLogin.password,
+        }),
+      });
+      const json = await response.json();
+      if (response.status === 201) {
+        dispatch(messageHandlerSet({ message: i18n.t('Login Successful'), status: 'success' }));
+        // setTimeout(() => {
+        //     navigation.navigate('Main', {screen: 'LanguagePage'});
+        // }, 1200)
+        dispatch(userLoginSuccess(json));
+      } else {
+        dispatch(messageHandlerSet({ message: i18n.t('Wrong email or password'), status: 'error' }));
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
-    const onLogin = async () => {
-        console.log(payloadLogin);
-        setLoading(true)
-        await handleLogin()
-    }
-    
-    useFocusEffect(
-        React.useCallback(() => {
-            const onBackPress = () => {
-                return true;
-            };
-        
-            BackHandler.addEventListener('hardwareBackPress', onBackPress);
-            
-            return () =>
-                BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-        }, []),
-    );
-    useEffect(() =>{
-        console.log('loading: ', loading);
-        // getToken()
-    },[loading])
-    return (
-    <Box style={styles.container}>
-        <Box style={styles.headerInner}>
-            <Image style={styles.imgLogo} source={require('../../../assets/logo-resize.png')}/>
+  };
+  const onLogin = async () => {
+    console.log(payloadLogin);
+    setLoading(true);
+    await handleLogin();
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        return true;
+      };
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+      return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, []),
+  );
+  useEffect(() => {
+    console.log('loading: ', loading);
+    // getToken()
+  }, [loading]);
+  return (
+    <Flex style={styles.container}>
+      <Box style={styles.headerInner}>
+        <Image style={styles.imgLogo} source={require('../../../assets/logo-resize.png')} />
+        <Text style={styles.title}>Customer Login</Text>
+      </Box>
+      <Stack space={4} style={styles.centerInner}>
+        <Stack space={2} style={styles.formView}>
+          <CustomInput
+            name="username"
+            placeholder="Username or email"
+            control={control}
+            onChangeText={value => setPayloadLogin({ ...payloadLogin, email: value })}
+            rules={{ required: 'Username or email is required' }}
+          />
+          <CustomInput
+            name="password"
+            placeholder="Password"
+            secureTextEntry={true}
+            control={control}
+            rules={{
+              required: 'Password is required',
+              minLength: { value: 3, message: 'Password should be minimum 3 characters long' },
+            }}
+            onChangeText={value => setPayloadLogin({ ...payloadLogin, password: value })}
+          />
+          <Button style={styles.centerLink}>
+            <Text style={styles.textBold}>Forgot password?</Text>
+          </Button>
+        </Stack>
+        <Box style={styles.loginButtonSection}>
+          <Button backgroundColor={`${loading ? 'red.400' : 'red.500'}`} rounded="md" h={55} onPress={handleSubmit(onLogin)}>
+            <HStack space={3} justifyContent="center">
+              {loading && <Spinner color="white" />}
+              <Text style={styles.textSignIn}>Sign In</Text>
+            </HStack>
+          </Button>
         </Box>
-        <Box style={styles.centerInner}>
-            <Box style={styles.formView} mb={1}>
-            <Stack space={4} w="100%" mx="auto">
-                <View style={styles.InputCont}>
-                    <TextInput style={styles.InputPass} 
-                        placeholder='Username or Email'
-                        placeholderTextColor='grey'
-                        onChangeText={value => setPayloadLogin({...payloadLogin, email: value})}
-                    /> 
-                </View>
-                <View style={styles.InputCont}>
-                    <TextInput style={styles.InputPass} 
-                        placeholder='Password'
-                        secureTextEntry={showPass}
-                        placeholderTextColor='grey'
-                        onChangeText={value => setPayloadLogin({...payloadLogin, password: value})}
-                    /> 
-                    <View style={styles.ShowIcon}>
-                        <TouchableOpacity
-                            onPress={() => setShowPass(!showPass)}
-                        >
-                        <Icon name={showPass ? "eye" : "eye-off"} size={25} color="#5b5b5b" />
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </Stack>
-            </Box>
-            <Box
-                mt={8}
-                style={styles.loginButtonSection}
-            >
-                <Button 
-                    backgroundColor='red.500'
-                    rounded='md'
-                    h='60px'
-                    onPress={onLogin}
-                    _text={{color: 'white', fontWeight: 'bold', fontSize: '22', letterSpacing: '2'}}
-                >
-                    {loading ? 
-                        <HStack space={2} justifyContent="center">
-                            <Spinner color="white"/>
-                            <Heading color="white" fontSize="md">
-                                Signing In
-                            </Heading>
-                        </HStack>
-                        : 
-                        'Sign In'
-                    }
-                </Button>
-                <Box mt={5} style={styles.centerLink} >
-                    <Link href="" _text={{fontSize: '15', textDecoration: 'none', color: 'blue.500'}}>
-                        Forgot password?
-                    </Link>
-                </Box>
-            </Box>
-        </Box>  
-        <Box style={styles.footerInner}>
-            <Text style={styles.createLabel}>You are an Interpreter?</Text>
-            <Box style={styles.buttonContainer}>
-                <TouchableOpacity
-                    onPress={() => navigation.navigate('Main', {screen: 'Register'})}
-                >
-                    <Box style={styles.createButton}>
-                        <Text style={styles.buttonLabel}>Signin Now</Text>
-                    </Box>
-                </TouchableOpacity>
-            </Box>
-        </Box>
-    </Box>
+      </Stack>
+      <Flex direction='column' justifyContent='flex-end' style={styles.footerInner}>
+        <Flex direction='row' align='center' >
+          <Text style={styles.createLabel}>You are an Interpreter?</Text>
+          <Button onPress={() => navigation.navigate('Main', { screen: 'InterpreterLogin' })}>
+            <Text style={styles.textBold}>Sign In Now</Text>
+          </Button>
+        </Flex>
+      </Flex>
+    </Flex>
   );
 };
 export default LoginPage;

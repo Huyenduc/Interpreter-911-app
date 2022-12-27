@@ -34,7 +34,6 @@ const InnerApp: FC = () => {
   return (
     <>
       <StatusBar barStyle="light-content"  />
-
       <RootStackScreen />
     </>
   );
