@@ -1,8 +1,9 @@
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
-import Homepage from '@scenes/Homepage';
-import UserDetails from '@scenes/UserDetails';
-import UsersList from '@scenes/UsersList';
-import customTheme from '@theme';
+import LoginPage from '@scenes/LoginPage'
+import RegisterPage from '@scenes/RegisterPage';
+import HomePreCall from '@scenes/HomePreCall';
+import VideoCallScreen from '@scenes/VideoCallScreen';
+import CallWaiting from '@scenes/CallWaiting';
 import { FC } from 'react';
 import * as React from 'react';
 
@@ -10,44 +11,47 @@ const MainStack = createStackNavigator();
 
 export const MainStackScreen: FC = () => {
   return (
-    <MainStack.Navigator initialRouteName="Home">
+    <MainStack.Navigator initialRouteName="Login">
       <MainStack.Screen
-        name="Home"
-        component={Homepage}
+        name="Login"
+        component={LoginPage}
         options={{
-          headerShown: true,
+          headerShown: false,
           headerTitleAlign: 'center',
           ...TransitionPresets.SlideFromRightIOS,
         }}
       />
       <MainStack.Screen
-        name="UsersList"
-        component={UsersList}
+        name="Register"
+        component={RegisterPage}
         options={{
-          headerShown: true,
+          headerShown: false,
           headerTitleAlign: 'center',
-          headerLeftContainerStyle: {
-            paddingLeft: customTheme.space[5],
-          },
-          headerRightContainerStyle: {
-            paddingRight: customTheme.space[5],
-          },
           ...TransitionPresets.SlideFromRightIOS,
         }}
       />
       <MainStack.Screen
-        name="UserDetails"
-        component={UserDetails}
+        name="HomePreCall"
+        component={HomePreCall}
         options={{
-          headerShown: true,
-          headerTitleAlign: 'center',
-          headerLeftContainerStyle: {
-            paddingLeft: customTheme.space[5],
-          },
-          headerRightContainerStyle: {
-            paddingRight: customTheme.space[5],
-          },
-          ...TransitionPresets.SlideFromRightIOS,
+          headerShown: false,
+          headerTitleAlign: 'center'
+        }}
+      />
+      <MainStack.Screen
+        name="VideoCallScreen"
+        component={VideoCallScreen}
+        options={{
+          headerShown: false,
+          headerTitleAlign: 'center'
+        }}
+      />
+       <MainStack.Screen
+        name="CallWaiting"
+        component={CallWaiting}
+        options={{
+          headerShown: false,
+          headerTitleAlign: 'center'
         }}
       />
     </MainStack.Navigator>

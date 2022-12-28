@@ -13,10 +13,12 @@ import SplashScreen from 'react-native-splash-screen';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import InnerApp from './InnerApp';
+import { requestUserPermission, NotificationListner } from './notification/firebase';
 
 enableScreens();
 
 const App: FC = () => {
+
   useEffect(() => {
     isMountedRef.current = true;
 
@@ -26,6 +28,12 @@ const App: FC = () => {
   useEffect(() => {
     SplashScreen.hide();
   }, []);
+
+  useEffect(() => {
+    requestUserPermission();
+    NotificationListner();
+  }, [])
+
 
   return (
     <Suspense fallback={<Splashscreen />}>

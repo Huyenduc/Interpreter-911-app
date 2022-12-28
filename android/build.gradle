@@ -6,8 +6,8 @@ buildscript {
     ext {
         buildToolsVersion = "31.0.0"
         minSdkVersion = 21
-        compileSdkVersion = 31
-        targetSdkVersion = 31
+        compileSdkVersion = 33
+        targetSdkVersion = 33
         //kotlinVersion = "1.5.20"
 
         if (System.properties['os.arch'] == "aarch64") {
@@ -26,6 +26,7 @@ buildscript {
         classpath("com.android.tools.build:gradle:7.1.1")
         classpath("com.facebook.react:react-native-gradle-plugin")
         classpath("de.undercouch:gradle-download-task:5.0.1")
+        classpath 'com.google.gms:google-services:4.3.13'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -33,8 +34,23 @@ buildscript {
 
 allprojects {
     repositories {
+    exclusiveContent {
+            // Official recommended fix for Android build problem with React Native versions below 0.71
+            // https://github.com/facebook/react-native/issues/35210
+            // TODO: remove this exclusiveContent section when we upgrade to React Native 0.71 (or above)
+            // copied from https://github.com/Scottish-Tech-Army/Volunteer-app/pull/101/commits/40a30310ee46194efbaf1c07aef8a0df70231eeb
+            filter {
+                includeGroup "com.facebook.react"
+            }
+            forRepository {
+                maven {
+                    url "$rootDir/../node_modules/react-native/android"
+                }
+            }
+        }
         //mavenCentral()
         //mavenLocal()
+        jcenter()
         maven {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
             url("$rootDir/../node_modules/react-native/android")
