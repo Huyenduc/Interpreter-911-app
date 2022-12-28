@@ -18,14 +18,11 @@ import { GenericNavigationProps } from '@routes/types';
 import { propsHandlerFullInfo } from '@redux/propsHandler/selectors';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-    propsHandlerSet,
     propsHandlerReset,
     propsSetStatus,
-    propsSetToken,
     propsEnableAudio,
     propsEnableVideo,
     propsSetTrack,
-    propsSetPerson
 } from '@redux/propsHandler/actions';
 import styles from './styles'
 
@@ -37,7 +34,7 @@ const VideoCallScreen = () => {
     const dispatch = useDispatch()
     const navigation = useNavigation<GenericNavigationProps>()
     const twilioVideo = useRef<any>(null);
-    const { props, setProps } = useSelector(propsHandlerFullInfo)
+    const { props} = useSelector(propsHandlerFullInfo)
     console.log("porp", props.videoTracks)
     console.log("porp2", props.status)
 
@@ -110,12 +107,11 @@ const VideoCallScreen = () => {
                         </View>
                     )}
                     {
-                        props.isVideoEnabled ?
-                            <TwilioVideoLocalView
-                                enabled={props.status === 'connected'}
-                                applyZOrder={true}
-                                style={styles.localVideo}
-                            /> :
+                        props.isVideoEnabled ? <TwilioVideoLocalView
+                            enabled={props.status === 'connected'}
+                            applyZOrder={true}
+                            style={styles.localVideo}
+                        /> :
                             <View style={styles.disableLocalVideo}>
                                 <Image style={styles.imageLocalVideo} source={require('../../assets/images/user.png')} />
 
@@ -146,6 +142,7 @@ const VideoCallScreen = () => {
             <TwilioVideo
                 ref={twilioVideo}
 
+            
                 onRoomDidConnect={() => {
 
                 }}
@@ -173,7 +170,7 @@ const VideoCallScreen = () => {
                     }
                 }}
 
-                onRoomParticipantDidConnect={() => {
+                onRoomParticipantDidConnect={(e) => {
                     dispatch(propsSetStatus("connected"))
                 }}
                 onParticipantRemovedVideoTrack={({ track }) => {
