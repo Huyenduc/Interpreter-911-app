@@ -8,7 +8,7 @@ import { Image, Text } from 'react-native';
 import styles from './styles';
 
 const InterpreterLogin = () => {
-  const { control, handleSubmit } = useForm();
+  const { control} = useForm();
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation<GenericNavigationProps>();
   return (
@@ -35,7 +35,6 @@ const InterpreterLogin = () => {
               required: 'Password is required',
               minLength: { value: 3, message: 'Password should be minimum 3 characters long' },
             }}
-            // onChangeText={value => setPayloadLogin({ ...payloadLogin, password: value })}
           />
           <Button style={styles.centerLink}>
             <Text style={styles.textBold}>Forgot password?</Text>
@@ -57,7 +56,7 @@ const InterpreterLogin = () => {
       </Stack>
       <Flex direction="column" justifyContent="flex-end" style={styles.footerInner}>
         <Flex direction="row" align="center">
-          <Text style={styles.createLabel}>You are an Customer?</Text>
+          <Text style={styles.createLabel}>You are a Customer?</Text>
           <Button onPress={() => navigation.navigate('Main', { screen: 'Login' })}>
             <Text style={styles.textBold}>Sign In Now</Text>
           </Button>

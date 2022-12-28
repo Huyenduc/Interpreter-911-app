@@ -1,7 +1,7 @@
 import CustomInput from '@components/Input/CustomInput';
 import i18n from '@i18n';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { userLoginSuccess } from '@redux/actions';
+import { userLoginSuccess } from '@redux/loginReq/actions';
 import { messageHandlerSet } from '@redux/messageHandler/actions';
 import type { UserLogin } from '@redux/reqres/types';
 import { GenericNavigationProps } from '@routes/types';
@@ -14,18 +14,12 @@ import { useDispatch } from 'react-redux';
 
 const LoginPage: FC = () => {
   const dispatch = useDispatch();
-  // const toast = useToast()
-  // const userInfor = useSelector(userLoginPayload)
   const navigation = useNavigation<GenericNavigationProps>();
-  // const {loadingStatus} = useSelector(loadingGetStatus)
-  // const loading = useSelector(userLoginLoading)
   const [payloadLogin, setPayloadLogin] = React.useState<UserLogin>({
-    // dataLogin: {
-    email: '',
-    password: '',
-    // }
+      email: '',
+      password: '',
   });
-  const { control, handleSubmit } = useForm();
+  const { control } = useForm();
   const [loading, setLoading] = useState(false);
   const handleLogin = async () => {
     try {
@@ -43,10 +37,7 @@ const LoginPage: FC = () => {
       const json = await response.json();
       if (response.status === 201) {
         dispatch(messageHandlerSet({ message: i18n.t('Login Successful'), status: 'success' }));
-        // setTimeout(() => {
-        //     navigation.navigate('Main', {screen: 'LanguagePage'});
-        // }, 1200)
-        dispatch(userLoginSuccess());
+        dispatch(userLoginSuccess(json));
       } else {
         dispatch(messageHandlerSet({ message: i18n.t('Wrong email or password'), status: 'error' }));
       }
@@ -57,9 +48,9 @@ const LoginPage: FC = () => {
     }
   };
   const onLogin = async () => {
-    // console.log(payloadLogin);
-    // setLoading(true);
-    // await handleLogin();
+    console.log(payloadLogin);
+    setLoading(true);
+    await handleLogin();
     navigation.navigate('Main', {screen: 'LanguagePage'})
   };
 
@@ -107,7 +98,7 @@ const LoginPage: FC = () => {
           </Button>
         </Stack>
         <Box style={styles.loginButtonSection}>
-          <Button onPress={handleSubmit(onLogin)} backgroundColor={`${loading ? 'red.400' : 'red.500'}`} rounded="md" h={55}>
+          <Button backgroundColor={`${loading ? 'red.400' : 'red.500'}`} rounded="md" h={55} onPress={onLogin}>
             <HStack space={3} justifyContent="center">
               {loading && <Spinner color="white" />}
               <Text style={styles.textSignIn}>Sign In</Text>

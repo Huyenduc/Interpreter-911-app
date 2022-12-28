@@ -10,7 +10,7 @@ const initialState: ITestHandler = {
 const testReducer = createReducer(initialState, {
     [testHandlerSet.type]: (state, action) => {
       state.payloads = action.payload.payloads;
-      console.log('redux payload: ',action.payload.payloads)
+      // console.log('redux payload: ',action.payload.payloads)
     },
     [testHandlerReset.type]: state => {
       state.payloads = null

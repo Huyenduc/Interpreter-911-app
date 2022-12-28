@@ -21,11 +21,11 @@ const App: FC = () => {
 
   useEffect(() => {
     isMountedRef.current = true;
+
     return () => (isMountedRef.current = false);
   }, []);
 
   useEffect(() => {
-    // navigation.navigate()
     SplashScreen.hide();
   }, []);
 

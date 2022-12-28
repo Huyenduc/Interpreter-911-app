@@ -2,14 +2,19 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { usersReducer } from '@redux/reqres/reducers';
 import { persistCombineReducers } from 'redux-persist';
 import messagesReducer from './messageHandler/reducers';
-import propsReducer from './propsHandler/reducers';
 import testReducer from './testHandler/reducers';
-
+import propsReducer from './propsHandler/reducers';
+import loadingReducer from './loading/reducers';
+import languagesReducer from './languages/reducers';
+import { UserReducer } from './loginReq/reducers';
 const reducers = {
+  user: UserReducer,
   users: usersReducer,
   messages: messagesReducer,
   test: testReducer,
   props: propsReducer,
+  loading: loadingReducer,
+  languages: languagesReducer
 };
 
 const persistConfig = {

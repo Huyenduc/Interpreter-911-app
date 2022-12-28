@@ -26,10 +26,10 @@ import {
 import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { GenericNavigationProps } from '@routes/types';
+import env from '@env'
 
 const HomePreCall = () => {
-    const API_URL = 'https://6b15-14-163-238-107.ap.ngrok.io/'
-    const navigation = useNavigation<GenericNavigationProps>()
+    const navigation = useNavigation<GenericNavigationProps>();
     const dispatch = useDispatch()
     const [propsPayload, setPropsPayload] = useState({
         
@@ -150,7 +150,7 @@ const HomePreCall = () => {
                     dispatch(propsSetUsername(propsPayload.userName))
                     dispatch(propsSetRoomname(propsPayload.roomName))
                     _checkPermissions(() => {
-                    fetch(`${API_URL}getToken?userName=mnaz`)
+                    fetch(`${env.API_URL_CALL}getToken?userName=duc`)
                         .then((response) => {
                         console.log("connect",response)
 

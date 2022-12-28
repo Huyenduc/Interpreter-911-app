@@ -56,7 +56,7 @@
     "lodash": "^4.17.21",
     "native-base": "3.4.13",
     "react": "18.2.0",
-    "react-hook-form": "^7.41.1",
+    "react-hook-form": "^7.41.2",
     "react-i18next": "11.18.4",
     "react-native": "0.69.4",
     "react-native-callkeep": "git+https://github.com/react-native-webrtc/react-native-callkeep#4b1fa98a685f6502d151875138b7c81baf1ec680",
