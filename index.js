@@ -12,18 +12,12 @@ import { onDisplayNotification } from "./src/notification/notiffe";
 import { handleCallNotification, setupCallKeepWithCheck } from "./src/notification/callKeep";
 import RNCallKeep from 'react-native-callkeep';
 import { useNavigation } from '@react-navigation/native';
-// import { GenericNavigationProps } from '@routes/types';
-
-// const navigation = useNavigation();
-// setupCallKeepWithCheck();
 
 messaging().setBackgroundMessageHandler(async (e) => {
   console.log(e)
   handleCallNotification()
-
 });
 
-// Remove YellowBox on Debug application screen
 LogBox.ignoreAllLogs(true);
 AppRegistry.registerComponent(appName, () => App);
 

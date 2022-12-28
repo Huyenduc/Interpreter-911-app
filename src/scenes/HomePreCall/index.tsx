@@ -1,18 +1,15 @@
 import 'react-native-gesture-handler';
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import env from '@env';
+import React, { useState, useEffect} from 'react';
 import {
-  StyleSheet,
   View,
   Text,
-  StatusBar,
   TouchableOpacity,
   TextInput,
   Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  Dimensions,
-  useColorScheme
 } from 'react-native';
 import {
     checkMultiple,
@@ -22,24 +19,20 @@ import {
     RESULTS,
   } from 'react-native-permissions';
 import styles from './styles';
-import { propsHandlerFullInfo } from '@redux/propsHandler/selectors';
 import { 
-    propsHandlerSet, 
     propsSetUsername,
     propsSetRoomname,
     propsSetToken
 } from '@redux/propsHandler/actions';
-import { PropsPayload } from '@redux/propsHandler/types';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { GenericNavigationProps } from '@routes/types';
 
 const HomePreCall = () => {
-    const API_URL = 'https://3333-113-160-172-8.ap.ngrok.io/'
     const navigation = useNavigation<GenericNavigationProps>();
     const dispatch = useDispatch()
+    console.log(env.API_URL)
     const [propsPayload, setPropsPayload] = useState({
-        
             isAudioEnabled: true,
             isVideoEnabled: true,
             status: 'disconnected',
@@ -157,7 +150,7 @@ const HomePreCall = () => {
                     dispatch(propsSetUsername(propsPayload.userName))
                     dispatch(propsSetRoomname(propsPayload.roomName))
                     _checkPermissions(() => {
-                    fetch(`${API_URL}getToken?userName=duc`)
+                    fetch(`${env.API_URL_CALL}getToken?userName=duc`)
                         .then((response) => {
                         console.log("connect",response)
 

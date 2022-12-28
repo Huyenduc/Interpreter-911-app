@@ -18,14 +18,11 @@ import { GenericNavigationProps } from '@routes/types';
 import { propsHandlerFullInfo } from '@redux/propsHandler/selectors';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-    propsHandlerSet,
     propsHandlerReset,
     propsSetStatus,
-    propsSetToken,
     propsEnableAudio,
     propsEnableVideo,
     propsSetTrack,
-    propsSetPerson
 } from '@redux/propsHandler/actions';
 import styles from './styles'
 
@@ -37,7 +34,7 @@ const VideoCallScreen = () => {
     const dispatch = useDispatch()
     const navigation = useNavigation<GenericNavigationProps>()
     const twilioVideo = useRef<any>(null);
-    const { props, setProps } = useSelector(propsHandlerFullInfo)
+    const { props} = useSelector(propsHandlerFullInfo)
     console.log("porp", props.videoTracks)
     console.log("porp2", props.status)
 
@@ -145,6 +142,7 @@ const VideoCallScreen = () => {
             <TwilioVideo
                 ref={twilioVideo}
 
+            
                 onRoomDidConnect={() => {
 
                 }}

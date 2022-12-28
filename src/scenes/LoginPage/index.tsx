@@ -17,18 +17,12 @@ import styles from '@scenes/LoginPage/styles';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import { GenericNavigationProps } from '@routes/types';
-// import { testHandlerSet } from '@redux/testHandler/actions';
 import { testHandlerPayload } from '@redux/testHandler/types';
-// import { put } from 'redux-saga/effects';
-// import ApiClient from '@api';
-// import { navigate } from '@routes/navigationUtils';
-// import { propsHandlerFullInfo } from '@redux/propsHandler/selectors';
 const LoginPage: FC = () => {
     const dispatch = useDispatch()
     const toast = useToast()
     const navigation = useNavigation<GenericNavigationProps>();
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
+   
     const [showPass, setShowPass] = React.useState(true);
     const [payloadLogin, setPayloadLogin] = React.useState<UserLogin>({
         // dataLogin: {

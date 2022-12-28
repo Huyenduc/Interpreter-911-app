@@ -22,7 +22,7 @@ export const requestUserPermission = async () => {
     }
 
 const getToken = async () => {
-    const devicesToken = await AsyncStorage.getItem('devicesToken');
+    const devicesToken = await AsyncStorage.getItem('@devicesToken');
     console.log("dd", devicesToken)
     if (!devicesToken)
         try {
