@@ -1,13 +1,11 @@
-import * as React from 'react';
+import React from 'react';
 import 'react-native-gesture-handler';
 import {
     Text,
     View,
     TouchableOpacity,
     Alert,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
+    Platform,
 } from 'react-native';
 import {
     checkMultiple,
@@ -15,25 +13,24 @@ import {
     requestMultiple,
     PERMISSIONS,
     RESULTS,
-  } from 'react-native-permissions';
+} from 'react-native-permissions';
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { 
-    useSelector, 
-    useDispatch 
+import {
+    useSelector,
+    useDispatch
 } from 'react-redux';
-import { 
-    propsHandlerSet, 
+import {
     propsSetUsername,
     propsSetRoomname,
     propsSetToken
 } from '@redux/propsHandler/actions';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { GenericNavigationProps } from '@routes/types';
 import { getLanguagesStore } from '@redux/languages/selectors'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from '@scenes/LanguagePage/styles';
 
-interface ILanguage{
+interface ILanguage {
     id: number;
     name: string;
     type: string
@@ -43,7 +40,7 @@ const LanguagePage = () => {
     const navigation = useNavigation<GenericNavigationProps>()
     const dispatch = useDispatch()
     const allLanguages = useSelector(getLanguagesStore)
-    
+
     console.log('all languages: ', allLanguages)
     const delToken = async () => {
         try {
@@ -61,73 +58,73 @@ const LanguagePage = () => {
         userName: '',
         roomName: '',
         token: '',
-    
+
     })
     console.log('url:', API_URL)
     const _checkPermissions = (callback?: any) => {
         const iosPermissions = [PERMISSIONS.IOS.CAMERA, PERMISSIONS.IOS.MICROPHONE];
         const androidPermissions = [
-        PERMISSIONS.ANDROID.CAMERA,
-        PERMISSIONS.ANDROID.RECORD_AUDIO,
+            PERMISSIONS.ANDROID.CAMERA,
+            PERMISSIONS.ANDROID.RECORD_AUDIO,
         ];
         checkMultiple(
-        Platform.OS === 'ios' ? iosPermissions : androidPermissions,
+            Platform.OS === 'ios' ? iosPermissions : androidPermissions,
         ).then((statuses) => {
-        const [CAMERA, AUDIO] =
-            Platform.OS === 'ios' ? iosPermissions : androidPermissions;
-        if (
-            statuses[CAMERA] === RESULTS.UNAVAILABLE ||
-            statuses[AUDIO] === RESULTS.UNAVAILABLE
-        ) {
-            Alert.alert(
-            'Error',
-            'Hardware to support video calls is not available',
-            );
-        } else if (
-            statuses[CAMERA] === RESULTS.BLOCKED ||
-            statuses[AUDIO] === RESULTS.BLOCKED
-        ) {
-            Alert.alert(
-            'Error',
-            'Permission to access hardware was blocked, please grant manually',
-            );
-        } else {
+            const [CAMERA, AUDIO] =
+                Platform.OS === 'ios' ? iosPermissions : androidPermissions;
             if (
-            statuses[CAMERA] === RESULTS.DENIED &&
-            statuses[AUDIO] === RESULTS.DENIED
+                statuses[CAMERA] === RESULTS.UNAVAILABLE ||
+                statuses[AUDIO] === RESULTS.UNAVAILABLE
             ) {
-            requestMultiple(
-                Platform.OS === 'ios' ? iosPermissions : androidPermissions,
-            ).then((newStatuses) => {
+                Alert.alert(
+                    'Error',
+                    'Hardware to support video calls is not available',
+                );
+            } else if (
+                statuses[CAMERA] === RESULTS.BLOCKED ||
+                statuses[AUDIO] === RESULTS.BLOCKED
+            ) {
+                Alert.alert(
+                    'Error',
+                    'Permission to access hardware was blocked, please grant manually',
+                );
+            } else {
                 if (
-                newStatuses[CAMERA] === RESULTS.GRANTED &&
-                newStatuses[AUDIO] === RESULTS.GRANTED
+                    statuses[CAMERA] === RESULTS.DENIED &&
+                    statuses[AUDIO] === RESULTS.DENIED
                 ) {
-                callback && callback();
-                } else {
-                Alert.alert('Error', 'One of the permissions was not granted');
-                }
-            });
-            } else if (
-            statuses[CAMERA] === RESULTS.DENIED ||
-            statuses[AUDIO] === RESULTS.DENIED
-            ) {
-            request(statuses[CAMERA] === RESULTS.DENIED ? CAMERA : AUDIO).then(
-                (result) => {
-                if (result === RESULTS.GRANTED) {
+                    requestMultiple(
+                        Platform.OS === 'ios' ? iosPermissions : androidPermissions,
+                    ).then((newStatuses) => {
+                        if (
+                            newStatuses[CAMERA] === RESULTS.GRANTED &&
+                            newStatuses[AUDIO] === RESULTS.GRANTED
+                        ) {
+                            callback && callback();
+                        } else {
+                            Alert.alert('Error', 'One of the permissions was not granted');
+                        }
+                    });
+                } else if (
+                    statuses[CAMERA] === RESULTS.DENIED ||
+                    statuses[AUDIO] === RESULTS.DENIED
+                ) {
+                    request(statuses[CAMERA] === RESULTS.DENIED ? CAMERA : AUDIO).then(
+                        (result) => {
+                            if (result === RESULTS.GRANTED) {
+                                callback && callback();
+                            } else {
+                                Alert.alert('Error', 'Permission not granted');
+                            }
+                        },
+                    );
+                } else if (
+                    statuses[CAMERA] === RESULTS.GRANTED ||
+                    statuses[AUDIO] === RESULTS.GRANTED
+                ) {
                     callback && callback();
-                } else {
-                    Alert.alert('Error', 'Permission not granted');
                 }
-                },
-            );
-            } else if (
-            statuses[CAMERA] === RESULTS.GRANTED ||
-            statuses[AUDIO] === RESULTS.GRANTED
-            ) {
-            callback && callback();
             }
-        }
         });
     };
 
@@ -135,7 +132,7 @@ const LanguagePage = () => {
         _checkPermissions();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    return(
+    return (
         <View style={styles.languageCont}>
             <View style={styles.containerTitle}>
                 <Text style={styles.screenTitle}>Choose a language to call!</Text>
@@ -143,40 +140,40 @@ const LanguagePage = () => {
             {allLanguages.language?.map((item: ILanguage) => (
                 <View key={item.id} style={styles.liItem}>
                     {/* <View> */}
-                        <Text>{item.name}</Text>
+                    <Text>{item.name}</Text>
                     {/* </View> */}
                     <View style={styles.callIcon}>
                         <TouchableOpacity >
-                            <Ionicons name='call-sharp' size={22}/>
+                            <Ionicons name='call-sharp' size={22} />
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.spaceIcon}
                             onPress={() => {
                                 dispatch(propsSetUsername(propsPayload.userName))
                                 dispatch(propsSetRoomname(propsPayload.roomName))
                                 _checkPermissions(() => {
-                                fetch(`${API_URL}getToken?userName=mnaz`)
-                                    .then((response) => {
-                                    if (response.ok) {
-                                        // console.log(response.text().then())
-                                        response.text().then((jwt) => {
-                                        dispatch(propsSetToken(jwt))
-                                        navigation.navigate('Main', {screen: 'VideoCallScreen'});
-                                        return true;
+                                    fetch(`${API_URL}getToken?userName=mnaz`)
+                                        .then((response) => {
+                                            if (response.ok) {
+                                                // console.log(response.text().then())
+                                                response.text().then((jwt) => {
+                                                    dispatch(propsSetToken(jwt))
+                                                    navigation.navigate('Main', { screen: 'VideoCallScreen' });
+                                                    return true;
+                                                });
+                                            } else {
+                                                response.text().then((error) => {
+                                                    Alert.alert(error);
+                                                });
+                                            }
+                                        })
+                                        .catch((error) => {
+                                            console.log('error', error);
+                                            Alert.alert('API not available');
                                         });
-                                    } else {
-                                        response.text().then((error) => {
-                                        Alert.alert(error);
-                                        });
-                                    }
-                                    })
-                                    .catch((error) => {
-                                    console.log('error', error);
-                                    Alert.alert('API not available');
-                                    });
                                 });
                             }}
                         >
-                            <Ionicons name='videocam' size={23}/>
+                            <Ionicons name='videocam' size={23} />
                         </TouchableOpacity>
                     </View>
                 </View>

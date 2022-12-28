@@ -1,5 +1,4 @@
 import { all, AllEffect, call, ForkEffect, spawn } from 'redux-saga/effects';
-// import {all} from 'redux-saga/effects'
 import filmSaga from './sagas';
 
 function* filmsRootSaga(): Generator<AllEffect<ForkEffect<void>>, void> {

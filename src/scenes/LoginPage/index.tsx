@@ -1,7 +1,7 @@
 import CustomInput from '@components/Input/CustomInput';
 import i18n from '@i18n';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { userLoginSuccess } from '@redux/loginReq/actions';
+import { userLoginSuccess } from '@redux/actions';
 import { messageHandlerSet } from '@redux/messageHandler/actions';
 import type { UserLogin } from '@redux/reqres/types';
 import { GenericNavigationProps } from '@routes/types';
@@ -46,7 +46,7 @@ const LoginPage: FC = () => {
         // setTimeout(() => {
         //     navigation.navigate('Main', {screen: 'LanguagePage'});
         // }, 1200)
-        dispatch(userLoginSuccess(json));
+        dispatch(userLoginSuccess());
       } else {
         dispatch(messageHandlerSet({ message: i18n.t('Wrong email or password'), status: 'error' }));
       }
@@ -107,7 +107,7 @@ const LoginPage: FC = () => {
           </Button>
         </Stack>
         <Box style={styles.loginButtonSection}>
-          <Button backgroundColor={`${loading ? 'red.400' : 'red.500'}`} rounded="md" h={55} onPress={onLogin}>
+          <Button onPress={handleSubmit(onLogin)} backgroundColor={`${loading ? 'red.400' : 'red.500'}`} rounded="md" h={55}>
             <HStack space={3} justifyContent="center">
               {loading && <Spinner color="white" />}
               <Text style={styles.textSignIn}>Sign In</Text>

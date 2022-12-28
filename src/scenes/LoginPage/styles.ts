@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import { blob } from 'stream/consumers';
 
 const styles = StyleSheet.create({
     container: {

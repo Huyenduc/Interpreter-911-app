@@ -23,7 +23,7 @@ export type ModifyUserSuccessPayload = {
 };
 
 export type UserLogin = {
-  // login:{
+  // dataLogin:{
     email: string;
     password: string
   // }
