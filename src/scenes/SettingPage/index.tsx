@@ -10,7 +10,8 @@ import { isLoggedIn, loadingReset } from "@redux/loading/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { userLoginPayload } from "@redux/loginReq/selectors";
 import { GenericNavigationProps } from "@routes/types";
-import {useNavigation} from '@react-navigation/native'
+import {useNavigation} from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/Ionicons';
 import {styles} from './styles'
 
 export default function SettingPage(){
@@ -32,18 +33,30 @@ export default function SettingPage(){
     }
     return (
         <View style={styles.settingCont}>
-            <View style={styles.avatar}>
-                <Image source={require('')}/>
+            <View style={styles.headerCont}>
+                <Image style={styles.headerImage} source={require('../../../assets/logo-resize.png')}/>
+            </View>
+            <View style={styles.avatarCont}>
+                <View style={styles.avatar}>
+                    <Image source={require('')}/>
+                    <Icon name="person" color='white' size={30}/>
+                </View>
                 <Text>User Name</Text>
             </View>
             <View style={styles.userInformation}>
-
+                <Text style={styles.userInforText}> FullName: User Name </Text>
+                <Text style={styles.userInforText}> Phone Number: +0123465789 </Text>
+                <Text style={styles.userInforText}> Email: abc@gmail.com </Text>
+                <Text style={styles.userInforText}> Gender: Female/Male </Text>
+                <Text style={styles.userInforText}> Created at: 30/10/2022 </Text>
+                <Text style={styles.userInforText}> Updated at: 08/12/2022 </Text>
             </View>
-            <View style={styles.logoutButton}>
+            <View style={styles.logoutCont}>
                 <TouchableOpacity
                     onPress={handleLogout}
+                    style={styles.logoutButton}
                 >
-                    <Text>log out</Text>
+                    <Text style={styles.logoutText}>Log out</Text>
                 </TouchableOpacity>
             </View>
         </View>
