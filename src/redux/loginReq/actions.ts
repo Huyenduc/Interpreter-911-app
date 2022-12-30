@@ -7,4 +7,5 @@ import type {
 export const userLoginRequest = createAction<UserLoginRequestPayload>('ACTION/LOGIN_USER_REQUEST');
 export const userLoginSuccess = createAction<UserLoginSuccessPayload>('ACTION/LOGIN_USER_SUCCESS');
 export const userLoginFailed = createAction('ACTION/LOGIN_USER_FAILED');
+export const getTokenRedux = createAction('ACTION/GET_ACCESS_TOKEN');
 export const removeAccessToken = createAction('ACTION/REMOVE_ACCESS_TOKEN');

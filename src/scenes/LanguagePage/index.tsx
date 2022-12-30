@@ -35,7 +35,7 @@ interface ILanguage{
     type: string
 }
 const LanguagePage = () => {
-    const API_URL = 'https://6b15-14-163-238-107.ap.ngrok.io/'
+    const API_URL = 'https://5153-113-160-172-8.ap.ngrok.io'
     const navigation = useNavigation<GenericNavigationProps>()
     const dispatch = useDispatch()
     const allLanguages = useSelector(getLanguagesStore)
@@ -150,13 +150,14 @@ const LanguagePage = () => {
                                 // dispatch(propsSetUsername(propsPayload.userName))
                                 // dispatch(propsSetRoomname(propsPayload.roomName))
                                 _checkPermissions(() => {
-                                fetch(`${API_URL}getToken?userName=mnaz`)
+                                fetch(`${API_URL}/getToken?userName=mnazz`)
                                     .then((response) => {
                                     if (response.ok) {
                                         // console.log(response.text().then())
                                         response.text().then((jwt) => {
                                         dispatch(propsSetToken(jwt))
-                                        navigation.navigate('Main', {screen: 'VideoCallScreen'});
+                                        // navigation.navigate('Main', {screen: 'VideoCallScreen'});
+                                        navigation.navigate('VideoCallScreen');
                                         return true;
                                         });
                                     } else {

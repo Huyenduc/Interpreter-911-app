@@ -4,6 +4,7 @@ import {
     userLoginRequest,
     userLoginSuccess,
     userLoginFailed,
+    getTokenRedux,
     removeAccessToken
 } from './actions'
 

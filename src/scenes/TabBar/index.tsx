@@ -1,16 +1,34 @@
 import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+// import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import HomePreCall from '@scenes/HomePreCall';
 import LanguagePage from '@scenes/LanguagePage';
+import SettingPage from '@scenes/SettingPage'
 import { 
     getAcceptStatus,
     isReject
 } from '../../commons/exportFunction';
+import { useSelector } from 'react-redux';
+import { userLoginPayload } from '@redux/loginReq/selectors';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { navigate, navigationRef } from '@routes/navigationUtils';
 
 export default function TabBar(){
     const Tab = createBottomTabNavigator()
     const [accepted, setAccepted] = React.useState(false)
+    const userInfor = useSelector(userLoginPayload)
+    const saveToken = async () => {
+        // set Data to Storage
+        try {
+            if(userInfor.accessToken !== ""){
+                await AsyncStorage.setItem('@access-token', userInfor.accessToken);
+            }
+        } catch (error) {
+            console.log(error);
+        } 
+      };
+
     React.useEffect(() =>{
         getAcceptStatus().then(json => {
             console.log('isAccepted: ', json.isAccepted)
@@ -21,32 +39,44 @@ export default function TabBar(){
         .catch(error => console.log(error))
         isReject()
     },[])
+    React.useEffect(() => {
+        saveToken();
+    })
     return (
         <Tab.Navigator 
             initialRouteName={accepted ? 'LanguagePage' : 'HomePreCall'}
             screenOptions={{
-                tabBarActiveTintColor: 'coral',
+                tabBarActiveTintColor: 'white',
+                tabBarInactiveTintColor: '#c5c5c5',
+                tabBarStyle: {
+                    backgroundColor: '#da0000'
+                }
             }}
-
         >
                 <Tab.Screen 
                     name="Languages" 
                     component={LanguagePage} 
                     options={{
-                        headerShown: false,
-                        tabBarIcon: () => (
-                            <Ionicons size={18} name='earth'/>
+                        tabBarIcon: ({focused}) => (
+                            <Ionicons size={18} name='earth' color={focused ? 'white' : '#c5c5c5'}/>
                         ),
-                        tabBarActiveTintColor: 'coral'
                     }}
                 />
                 <Tab.Screen 
                     name="Call" 
                     component={HomePreCall} 
                     options={{
-                        headerShown: false,
-                        tabBarIcon: () => (
-                            <Ionicons size={18} name='call'/>
+                        tabBarIcon: ({focused}) => (
+                            <Ionicons size={18} name='call' color={focused ? 'white' : '#c5c5c5'}/>
+                        )
+                    }}
+                />
+                <Tab.Screen 
+                    name="Settings" 
+                    component={SettingPage} 
+                    options={{
+                        tabBarIcon: ({focused}) => (
+                            <Ionicons size={18} name='settings-sharp' color={focused ? 'white' : '#c5c5c5'}/>
                         )
                     }}
                 />

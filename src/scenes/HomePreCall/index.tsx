@@ -29,6 +29,7 @@ import { GenericNavigationProps } from '@routes/types';
 import env from '@env'
 
 const HomePreCall = () => {
+    const url = 'https://5153-113-160-172-8.ap.ngrok.io/'
     const navigation = useNavigation<GenericNavigationProps>();
     const dispatch = useDispatch()
     const [propsPayload, setPropsPayload] = useState({
@@ -150,14 +151,15 @@ const HomePreCall = () => {
                     dispatch(propsSetUsername(propsPayload.userName))
                     dispatch(propsSetRoomname(propsPayload.roomName))
                     _checkPermissions(() => {
-                    fetch(`${env.API_URL_CALL}getToken?userName=duc`)
+                    fetch(`${url}getToken?userName=duc`)
                         .then((response) => {
                         console.log("connect",response)
 
                         if (response.ok) {
                             response.text().then((jwt) => {
                             dispatch(propsSetToken(jwt))
-                            navigation.navigate('Main', {screen: 'VideoCallScreen'});
+                            // navigation.navigate('Main', {screen: 'VideoCallScreen'});
+                            navigation.navigate('VideoCallScreen');
                             return true;
                             });
                         } else {
