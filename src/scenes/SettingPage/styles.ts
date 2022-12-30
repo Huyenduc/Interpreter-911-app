@@ -3,7 +3,7 @@ import { white } from 'react-native-paper/lib/typescript/styles/themes/v2/colors
 
 export const styles = StyleSheet.create({
     settingCont:{
-        width: '90%',
+        width: '100%',
         display: 'flex',
         flexDirection: 'column',
         marginLeft: 'auto',
@@ -20,17 +20,20 @@ export const styles = StyleSheet.create({
         },
         shadowOpacity: 0.48,
         shadowRadius: 11.95,
+        elevation: 18,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'
     },
     headerImage:{
-            width: '30%',
-            height: 50,
+        width: '25%',
+        height: 50,
     },
     avatarCont:{
         width: '100%',
         height: '10%',
+        paddingLeft: 15,
+        paddingRight: 15,
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center'
@@ -48,6 +51,8 @@ export const styles = StyleSheet.create({
     userInformation:{
         width: '100%',
         height: '70%',
+        paddingLeft: 15,
+        paddingRight: 15,
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-start',
@@ -61,6 +66,8 @@ export const styles = StyleSheet.create({
     logoutCont:{
         width: '100%',
         height: '10%',
+        paddingLeft: 15,
+        paddingRight: 15,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',

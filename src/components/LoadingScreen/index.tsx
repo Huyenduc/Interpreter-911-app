@@ -8,13 +8,12 @@ import {Spinner, HStack, Heading} from 'native-base'
 export default function LoadingScreen(){
     return (
         <View style={styles.container}>
-            
-                <Spinner color="red" size={20}/>
+                <Spinner color="red.400" size={20} fontWeight='bold'/>
                 {/* <Heading color="primary.500" fontSize="md">
                     
                 </Heading> */}
                 <Text style={styles.text}>Checking 
-                    Authentication</Text>
+                    Auth</Text>
         </View>
     )
 }
@@ -32,6 +31,7 @@ export const styles = StyleSheet.create({
     text:{
         fontSize: 20,
         fontWeight: 'bold',
-        color: '#da0000'
+        color: '#da0000',
+        marginLeft: 10
     }
 })

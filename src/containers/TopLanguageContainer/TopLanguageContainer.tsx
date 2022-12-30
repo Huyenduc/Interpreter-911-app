@@ -21,9 +21,11 @@ import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { GenericNavigationProps } from '@routes/types';
 import { data } from './data';
+import { socket } from '@utils/context/SocketContext';
 
 const TopLanguageContainer = () => {
-  const url = 'https://5153-113-160-172-8.ap.ngrok.io/'
+ 
+  // const url = 'https://5153-113-160-172-8.ap.ngrok.io/'
   const navigation = useNavigation<GenericNavigationProps>();
   const dispatch = useDispatch()
   const datas = data;
@@ -105,30 +107,20 @@ useEffect(() => {
 
   const onCallVideo = React.useCallback(() => {
     _checkPermissions(() => {
-      fetch(`${url}getToken?userName=duc`)
-          .then((response) => {
-          console.log("connect",response)
 
-          if (response.ok) {
-              response.text().then((jwt) => {
-              dispatch(propsSetToken(jwt))
-              // navigation.navigate('Main', {screen: 'VideoCallScreen'});
-              navigation.navigate('VideoCallScreen');
-              return true;
-              });
-          } else {
-              response.text().then((error) => {
-              Alert.alert(error);
-              });
-          }
-          })
-          .catch((error) => {
-          console.log('error', error);
-          Alert.alert('API not available');
-          });
+      socket.emit('create-room', {
+        userId: '3a06683f-db35-4829-818c-44916f5ffc5b',
+        type: 'audio',
+        languageId: 1,
       });
+      socket.on('token-twilio', data => {
+        if (data.token) {
+          dispatch(propsSetToken(data.token));
+          navigation.navigate('Main', { screen: 'VideoCallScreen' });
+        }
+      });
+    });
   }, []);
-
   const renderItem = ({ item }: { item: ILanguageItem }) =>
     item && (
       <LangugeItem
