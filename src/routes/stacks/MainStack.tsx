@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
 import { setLanguages } from '@redux/languages/actions';
 import HomePreCall from '@scenes/HomePreCall';
+import LanguageScreen from '@scenes/LanguageScreen/LanguageScreen';
 import LoginPage from '@scenes/LoginPage';
 import InterpreterLogin from '@scenes/LoginPage/InterpreterLogin';
 // import { userLoginPayload } from '@redux/loginReq/selectors';
@@ -58,7 +59,7 @@ export const MainStackScreen: FC = () => {
       {token === null ? (
         <MainStack.Screen
           name="Login"
-          component={VideoCallScreen}
+          component={LoginPage}
           options={{
             headerShown: false,
             headerTitleAlign: 'center',
@@ -78,6 +79,15 @@ export const MainStackScreen: FC = () => {
       <MainStack.Screen
         name="InterpreterLogin"
         component={InterpreterLogin}
+        options={{
+          headerShown: false,
+          headerTitleAlign: 'center',
+          ...TransitionPresets.SlideFromRightIOS,
+        }}
+      />
+      <MainStack.Screen
+        name="LanguageScreen"
+        component={LanguageScreen}
         options={{
           headerShown: false,
           headerTitleAlign: 'center',
