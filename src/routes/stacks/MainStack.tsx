@@ -2,21 +2,16 @@ import { createStackNavigator, TransitionPresets } from '@react-navigation/stack
 import LoginPage from '@scenes/LoginPage'
 import RegisterPage from '@scenes/RegisterPage';
 import HomePreCall from '@scenes/HomePreCall';
+import LanguageScreen from '@scenes/LanguageScreen/LanguageScreen';
+import InterpreterLogin from '@scenes/LoginPage/InterpreterLogin';
+// import { userLoginPayload } from '@redux/loginReq/selectors';
 import VideoCallScreen from '@scenes/VideoCallScreen';
 import CallWaiting from '@scenes/CallWaiting';
+import React from 'react';
 import TabBar from '@scenes/TabBar';
-import { FC } from 'react';
-import * as React from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useDispatch, useSelector } from 'react-redux';
-import { getLanguages } from '../../commons/exportFunction';
-import { setLanguages } from '@redux/languages/actions';
-import { loadingGetStatus } from '@redux/loading/selectors';
-import LoadingScreen from '@components/LoadingScreen';
-import { ILoading } from '@redux/loading/reducers';
 const MainStack = createStackNavigator();
 
-export const MainStackScreen: FC = () => {
+export const MainStackScreen = () => {
   // const dispatch = useDispatch()
   // const isLoggedIn = useSelector(loadingGetStatus)
   // const [logged, setLogged] = React.useState<ILoading>()
@@ -86,9 +81,26 @@ export const MainStackScreen: FC = () => {
           ...TransitionPresets.SlideFromRightIOS,
         }}
       />
+      {/* <MainStack.Screen
+        name="LanguageScreen"
+        component={LanguageScreen}
+        options={{
+          headerShown: false,
+          headerTitleAlign: 'center',
+          ...TransitionPresets.SlideFromRightIOS,
+        }}
+      /> */}
       <MainStack.Screen
         name="HomePreCall"
         component={HomePreCall}
+        options={{
+          headerShown: false,
+          headerTitleAlign: 'center'
+        }}
+      />
+       <MainStack.Screen
+        name="InterpreterLogin"
+        component={InterpreterLogin}
         options={{
           headerShown: false,
           headerTitleAlign: 'center'

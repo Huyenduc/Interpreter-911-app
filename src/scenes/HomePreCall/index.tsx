@@ -16,7 +16,7 @@ import {
     requestMultiple,
     PERMISSIONS,
     RESULTS,
-  } from 'react-native-permissions';
+} from 'react-native-permissions';
 import styles from './styles';
 import { 
     propsSetUsername,

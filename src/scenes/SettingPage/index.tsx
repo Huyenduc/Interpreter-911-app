@@ -2,7 +2,8 @@ import * as React from "react";
 import {
     View,
     Text,
-    TouchableOpacity
+    TouchableOpacity,
+    Image
 } from "react-native"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { isLoggedIn, loadingReset } from "@redux/loading/actions";
@@ -10,6 +11,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { userLoginPayload } from "@redux/loginReq/selectors";
 import { GenericNavigationProps } from "@routes/types";
 import {useNavigation} from '@react-navigation/native'
+import {styles} from './styles'
+
 export default function SettingPage(){
     const dispatch = useDispatch()
     const navigation = useNavigation<GenericNavigationProps>()
@@ -23,18 +26,26 @@ export default function SettingPage(){
         } 
     }
     const handleLogout = () => {
-        // removeToken();
+        removeToken();
         dispatch(isLoggedIn(false))
         navigation.navigate('Main', {screen: 'Login'})
     }
     return (
-        <View>
-            <Text>Setting Page</Text>
-            <TouchableOpacity
-                onPress={handleLogout}
-            >
-                <Text>log out</Text>
-            </TouchableOpacity>
+        <View style={styles.settingCont}>
+            <View style={styles.avatar}>
+                <Image source={require('')}/>
+                <Text>User Name</Text>
+            </View>
+            <View style={styles.userInformation}>
+
+            </View>
+            <View style={styles.logoutButton}>
+                <TouchableOpacity
+                    onPress={handleLogout}
+                >
+                    <Text>log out</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     )
 }

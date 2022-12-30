@@ -31,15 +31,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#4a4a4a',
         borderRadius: 50,
         marginBottom: 10,
-        
     },
     buttonText: {
         color: 'white',
         textAlign: 'center',
     },
     connectButton:{
-      color: 'white',
-      textAlign: 'center'
+      
     },
     textInput: {
         padding: 5,
