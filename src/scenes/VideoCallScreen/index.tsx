@@ -34,9 +34,10 @@ const VideoCallScreen = () => {
     const dispatch = useDispatch()
     const navigation = useNavigation<GenericNavigationProps>()
     const twilioVideo = useRef<any>(null);
-    const { props} = useSelector(propsHandlerFullInfo)
-    console.log("porp", props.videoTracks)
-    console.log("porp2", props.status)
+    const { props } = useSelector(propsHandlerFullInfo)
+    // console.log("porp", props.videoTracks)
+    console.log("porp2", props.token)
+    console.log("porp2", props)
 
     useEffect(() => {
         //Kết nối vào phòng
@@ -57,10 +58,8 @@ const VideoCallScreen = () => {
     //Tắt cuộc gọi
     const _onEndButtonPress = () => {
         twilioVideo.current.disconnect();
-        dispatch(propsHandlerReset)
-        navigation.navigate('Main', {screen: 'RateScreen'})
+        dispatch(propsHandlerReset(''));
     };
-
 
     // Tắt tiếng
     const _onMuteButtonPress = () => {
@@ -81,9 +80,7 @@ const VideoCallScreen = () => {
         twilioVideo.current
             .setLocalVideoEnabled(!props.isVideoEnabled)
             .then((isEnabled: any) => {
-                // setProps({ ...props, isVideoEnabled: isEnabled })
                 dispatch(propsEnableVideo(isEnabled))
-                console.log('props', isEnabled)
             })
     }
 
@@ -108,11 +105,13 @@ const VideoCallScreen = () => {
                         </View>
                     )}
                     {
-                        props.isVideoEnabled ? <TwilioVideoLocalView
-                            enabled={props.status === 'connected'}
-                            applyZOrder={true}
-                            style={styles.localVideo}
-                        /> :
+
+                        props.isVideoEnabled ?
+                            <TwilioVideoLocalView
+                                enabled={props.status === 'connected'}
+                                applyZOrder={true}
+                                style={styles.localVideo}
+                            /> :
                             <View style={styles.disableLocalVideo}>
                                 <Image style={styles.imageLocalVideo} source={require('../../assets/images/user.png')} />
 
@@ -146,8 +145,13 @@ const VideoCallScreen = () => {
 
                 }}
                 onRoomDidDisconnect={() => {
-                    dispatch(propsSetStatus('disconnected'))
-                    navigation.goBack();
+                    if (props.status === 'connected') {
+                        navigation.navigate('Main', { screen: 'RateScreen' })
+
+                    } else {
+                        navigation.goBack();
+                    }
+
                 }}
                 onRoomDidFailToConnect={(error) => {
                     Alert.alert('Error', error.error);
@@ -169,17 +173,21 @@ const VideoCallScreen = () => {
                     }
                 }}
 
-                onRoomParticipantDidConnect={(
-                    // e
-                    ) => {
-                    dispatch(propsSetStatus("connected"))
+                onRoomParticipantDidDisconnect={() => {
+                    _onEndButtonPress();
+                }}
+                onRoomParticipantDidConnect={() => {
+                    setTimeout( ()=> {
+                        dispatch(propsSetStatus("connected"))
+                    }, 1500);
                 }}
                 onParticipantRemovedVideoTrack={(
-                    // { track }
-                    ) => {
-                    const videoTracks = props.videoTracks;
+                    { track }
+                ) => {
+                    const videoTracks = new Map();
+                    // videoTracks.set
                     // videoTracks.delete(track.trackSid);
-                    dispatch(propsSetTrack(videoTracks))
+                    dispatch(propsSetTrack(videoTracks));
                 }}
             />
         </View>

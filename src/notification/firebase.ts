@@ -27,7 +27,7 @@ const getToken = async () => {
     if (!devicesToken)
         try {
             const devicesToken = await messaging().getToken();
-            await AsyncStorage.setItem('devicesToken', devicesToken)
+            await AsyncStorage.setItem('@devicesToken', devicesToken)
             console.log(devicesToken)
         } catch (e) {
             console.log("error:", e)
@@ -35,29 +35,29 @@ const getToken = async () => {
 
 }
 
-RNCallKeep.setup({
-    ios: {
-        appName: 'CallKeepDemo',
-    },
-    android: {
-        alertTitle: 'Permissions required',
-        alertDescription: 'This application needs to access your phone accounts',
-        cancelButton: 'Cancel',
-        okButton: 'ok',
-        imageName: 'phone_account_icon',
-        // additionalPermissions: [PermissionsAndroid.PERMISSIONS.example],
-        // Required to get audio in background when using Android 11
-        //   foregroundService: {
-        //     channelId: 'com.company.my',
-        //     channelName: 'Foreground service for my app',
-        //     notificationTitle: 'My app is running on background',
-        //     notificationIcon: 'Path to the resource icon of the notification',
-        // },
-}
-});
+// RNCallKeep.setup({
+//     ios: {
+//         appName: 'CallKeepDemo',
+//     },
+//     android: {
+//         alertTitle: 'Permissions required',
+//         alertDescription: 'This application needs to access your phone accounts',
+//         cancelButton: 'Cancel',
+//         okButton: 'ok',
+//         imageName: 'phone_account_icon',
+//         // additionalPermissions: [PermissionsAndroid.PERMISSIONS.example],
+//         // Required to get audio in background when using Android 11
+//         //   foregroundService: {
+//         //     channelId: 'com.company.my',
+//         //     channelName: 'Foreground service for my app',
+//         //     notificationTitle: 'My app is running on background',
+//         //     notificationIcon: 'Path to the resource icon of the notification',
+//         // },
+// }
+// });
 
 // RNCallKeep.setup(options);
-    RNCallKeep.setAvailable(true);
+    // RNCallKeep.setAvailable(true);
 
 
 export const NotificationListner = () => {
@@ -77,12 +77,7 @@ export const NotificationListner = () => {
         // navigation.navigate(remoteMessage.data.type);
     });
 
-    messaging().onMessage(async remoteMessage => {
-        // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-        // RNCallKeep.displayIncomingCall("67389", "dhuduad");
-        handleCallNotification();
 
-    });
     // messaging().onMe
 }
 

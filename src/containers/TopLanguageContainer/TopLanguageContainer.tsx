@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 import { LangugeItem } from '@components/LanguageItem/LangugeItem';
 import { ILanguageItem } from '@components/LanguageItem/interface';
 import { FlatList } from 'native-base';
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Alert,
   Platform,
@@ -14,7 +14,7 @@ import {
   PERMISSIONS,
   RESULTS,
 } from 'react-native-permissions';
-import { 
+import {
   propsSetToken
 } from '@redux/propsHandler/actions';
 import { useDispatch } from 'react-redux';
@@ -24,7 +24,7 @@ import { data } from './data';
 import { socket } from '@utils/context/SocketContext';
 
 const TopLanguageContainer = () => {
- 
+
   // const url = 'https://5153-113-160-172-8.ap.ngrok.io/'
   const navigation = useNavigation<GenericNavigationProps>();
   const dispatch = useDispatch()
@@ -33,90 +33,89 @@ const TopLanguageContainer = () => {
   const _checkPermissions = (callback?: any) => {
     const iosPermissions = [PERMISSIONS.IOS.CAMERA, PERMISSIONS.IOS.MICROPHONE];
     const androidPermissions = [
-    PERMISSIONS.ANDROID.CAMERA,
-    PERMISSIONS.ANDROID.RECORD_AUDIO,
+      PERMISSIONS.ANDROID.CAMERA,
+      PERMISSIONS.ANDROID.RECORD_AUDIO,
     ];
     checkMultiple(
-    Platform.OS === 'ios' ? iosPermissions : androidPermissions,
+      Platform.OS === 'ios' ? iosPermissions : androidPermissions,
     ).then((statuses) => {
-    const [CAMERA, AUDIO] =
+      const [CAMERA, AUDIO] =
         Platform.OS === 'ios' ? iosPermissions : androidPermissions;
-    if (
+      if (
         statuses[CAMERA] === RESULTS.UNAVAILABLE ||
         statuses[AUDIO] === RESULTS.UNAVAILABLE
-    ) {
+      ) {
         Alert.alert(
-        'Error',
-        'Hardware to support video calls is not available',
+          'Error',
+          'Hardware to support video calls is not available',
         );
-    } else if (
+      } else if (
         statuses[CAMERA] === RESULTS.BLOCKED ||
         statuses[AUDIO] === RESULTS.BLOCKED
-    ) {
+      ) {
         Alert.alert(
-        'Error',
-        'Permission to access hardware was blocked, please grant manually',
+          'Error',
+          'Permission to access hardware was blocked, please grant manually',
         );
-    } else {
+      } else {
         if (
-        statuses[CAMERA] === RESULTS.DENIED &&
-        statuses[AUDIO] === RESULTS.DENIED
+          statuses[CAMERA] === RESULTS.DENIED &&
+          statuses[AUDIO] === RESULTS.DENIED
         ) {
-        requestMultiple(
+          requestMultiple(
             Platform.OS === 'ios' ? iosPermissions : androidPermissions,
-        ).then((newStatuses) => {
+          ).then((newStatuses) => {
             if (
-            newStatuses[CAMERA] === RESULTS.GRANTED &&
-            newStatuses[AUDIO] === RESULTS.GRANTED
+              newStatuses[CAMERA] === RESULTS.GRANTED &&
+              newStatuses[AUDIO] === RESULTS.GRANTED
             ) {
-            callback && callback();
+              callback && callback();
             } else {
-            Alert.alert('Error', 'One of the permissions was not granted');
+              Alert.alert('Error', 'One of the permissions was not granted');
             }
-        });
+          });
         } else if (
-        statuses[CAMERA] === RESULTS.DENIED ||
-        statuses[AUDIO] === RESULTS.DENIED
+          statuses[CAMERA] === RESULTS.DENIED ||
+          statuses[AUDIO] === RESULTS.DENIED
         ) {
-        request(statuses[CAMERA] === RESULTS.DENIED ? CAMERA : AUDIO).then(
+          request(statuses[CAMERA] === RESULTS.DENIED ? CAMERA : AUDIO).then(
             (result) => {
-            if (result === RESULTS.GRANTED) {
+              if (result === RESULTS.GRANTED) {
                 callback && callback();
-            } else {
+              } else {
                 Alert.alert('Error', 'Permission not granted');
-            }
+              }
             },
-        );
+          );
         } else if (
-        statuses[CAMERA] === RESULTS.GRANTED ||
-        statuses[AUDIO] === RESULTS.GRANTED
+          statuses[CAMERA] === RESULTS.GRANTED ||
+          statuses[AUDIO] === RESULTS.GRANTED
         ) {
-        callback && callback();
+          callback && callback();
         }
-    }
+      }
     });
-};
+  };
 
-useEffect(() => {
+  useEffect(() => {
     _checkPermissions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-}, []);
+  }, []);
   const onCall = React.useCallback(() => {
-    
+
   }, []);
 
   const onCallVideo = React.useCallback(() => {
     _checkPermissions(() => {
-
+      navigation.navigate('Main', { screen: 'VideoCallScreen' });
       socket.emit('create-room', {
-        userId: '3a06683f-db35-4829-818c-44916f5ffc5b',
+        userId: 'ca032246-364b-4aa9-a568-8159114e8897',
         type: 'audio',
         languageId: 1,
       });
       socket.on('token-twilio', data => {
         if (data.token) {
           dispatch(propsSetToken(data.token));
-          navigation.navigate('Main', { screen: 'VideoCallScreen' });
         }
       });
     });

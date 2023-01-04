@@ -57,7 +57,7 @@ const LoginPage: FC = () => {
 // ----------TOKEN FOR STORAGE------------
   const handleLogin = async () => {
     try {
-      const response = await fetch('http://10.10.21.18:3001/api/auth/login', {
+      const response = await fetch('http://10.10.21.74:3001/api/auth/login', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -115,24 +115,6 @@ const LoginPage: FC = () => {
       </Box>
       <Stack space={4} style={styles.centerInner}>
         <Stack space={2} style={styles.formView}>
-          {/* <CustomInput
-            name="username"
-            placeholder="Username or email"
-            control={control}
-            onChangeText={value => setPayloadLogin({ ...payloadLogin, email: value })}
-            rules={{ required: 'Username or email is required' }}
-          />
-          <CustomInput
-            name="password"
-            placeholder="Password"
-            secureTextEntry={true}
-            control={control}
-            rules={{
-              required: 'Password is required',
-              minLength: { value: 3, message: 'Password should be minimum 3 characters long' },
-            }}
-            onChangeText={value => setPayloadLogin({ ...payloadLogin, password: value })}
-          /> */}
           <View style={styles.InputCont}>
                     <TextInput style={styles.InputPass} 
                         placeholder='Username or Email'
@@ -149,7 +131,7 @@ const LoginPage: FC = () => {
                         <TouchableOpacity
                             onPress={() => setShowPass(!showPass)}
                         >
-                        <Ion name={showPass ? 'eye': 'eye-off'} size={20}/>
+                        <Ion name={showPass ? 'eye-off': 'eye'} size={20}/>
                         </TouchableOpacity>
                     </View>
                 </View>

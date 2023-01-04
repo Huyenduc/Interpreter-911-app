@@ -15,7 +15,7 @@ import { useNavigation } from '@react-navigation/native';
 
 messaging().setBackgroundMessageHandler(async (e) => {
   console.log(e)
-  handleCallNotification()
+  // handleCallNotification()
 });
 
 LogBox.ignoreAllLogs(true);

@@ -9,4 +9,4 @@ export const propsSetUsername = createAction<string>('PROPS_SET_USERNAME');
 export const propsSetRoomname = createAction<string>('PROPS_SET_ROOMNAME');
 export const propsSetToken = createAction<string>('PROPS_SET_TOKEN');
 export const propsHandlerSet = createAction<PropsPayload>('PROPS_HANDLER_SET');
-export const propsHandlerReset = createAction<PropsPayload>('PROPS_HANDLER_REsSET');
+export const propsHandlerReset = createAction<string>('PROPS_HANDLER_REsSET');
