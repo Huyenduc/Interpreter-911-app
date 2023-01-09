@@ -8823,7 +8823,8 @@ react-native-svg@13.0.0:
 
 "react-native-twilio-video-webrtc@git+https://github.com/blackuy/react-native-twilio-video-webrtc":
   version "3.0.0"
-  resolved "git+https://github.com/blackuy/react-native-twilio-video-webrtc#76c8cab685899abe129eec8574696dec12c357a8"
+  uid "53b9df8e7a2ba8a934f0a4a3d689de694dda6b8c"
+  resolved "git+https://github.com/blackuy/react-native-twilio-video-webrtc#53b9df8e7a2ba8a934f0a4a3d689de694dda6b8c"
   dependencies:
     prop-types "^15.5.10"
 
